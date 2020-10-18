@@ -148,7 +148,7 @@ public class Restaurant {
         this.scheduleSet = scheduleSet;
     }
 
-    
+
 
     public Manager getManager() {
         return manager;
