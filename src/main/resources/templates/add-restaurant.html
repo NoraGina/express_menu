@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create new restaurant</title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-size:16px;
+}
+
+body{
+    background-color: #949fb5;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+label{
+    padding: 3px;;
+}
+
+input{
+    padding: 3px;
+    float:right;
+    width:60%;
+}
+
+
+
+.header{
+    background-color: #575e6b;
+    padding: 20px;
+    text-align: center;
+}
+
+.container{
+    padding:20px;
+    width:40%;
+    margin:auto;
+}
+
+.center-block{
+    font-weight: bold;
+    color: #27324f;
+    font-size:2em;
+}
+
+.create-restaurant-form{
+    padding: 20px;
+}
+
+.form-group{
+    padding-bottom:12px;
+}
+
+.btn{
+    border: none;
+    font-weight: bold;
+    padding: 4px;
+    width:58%;
+    color: #11214a;
+    background-color: #434b5e;
+    border-radius: 3px;
+}
+
+.btn:hover{
+    background-color: #0d1f4f;
+    color: aliceblue;
+}
+
+.btn:focus{
+    outline:none;
+}
+
+
+
+@media only screen and (min-width: 576px) {
+    html{
+        font-size :12px;
+    }
+    .container{
+        width: 70%;
+    }
+    .btn{
+        width: 62%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    html{
+        font-size :12px;
+    }
+    .container{
+        width: 70%;
+    }
+    .btn{
+        width: 63%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    html{
+        font-size :14px;
+    }
+
+    .container{
+        width: 50%;
+    }
+    .btn{
+        width: 61%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    html{
+        font-size :16px;
+    }
+
+    .container{
+        width: 50%;
+    }
+    .btn{
+        width: 62%;
+    }
+}
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1 align="center">Save restaurant</h1>
+</div>
+
+<div class="container">
+    <fieldset>
+        <legend class="center-block">New restaurant</legend>
+        <form class="create-restaurant-form" method="post"th:action="@{/restaurants/add}" th:object="${restaurant}" enctype="multipart/form-data" >
+
+            <div class="form-group">
+                <label>Manager:</label>
+                <input type="hidden" th:field="*{manager.idManager}"  />
+                <input type="text" disabled th:value="*{manager.userName}"  />
+            </div>
+
+
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="restaurantName" th:field = "*{restaurantName}" th:value="${restaurantName}" placeholder="Enter restaurant name" required>
+                <span th:if="${#fields.hasErrors('restaurantName')}" th:errors="*{restaurantName}" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label>Email</label>
+                <input  type="text" name="email" th:field="*{restaurantEmail}" placeholder="Enter restaurant email" required/>
+                <span th:if="${#fields.hasErrors('restaurantEmail')}" th:errors="*{restaurantEmail}" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input  type="text" name="restaurantPhone" th:field="*{restaurantPhone}" placeholder="Enter restaurant phone"/>
+                <span th:if="${#fields.hasErrors('restaurantPhone')}" th:errors="*{restaurantPhone}" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input  type="text" name="restaurantAddress" th:field="*{restaurantAddress}" placeholder="Enter restaurant address" required/>
+                <span th:if="${#fields.hasErrors('restaurantAddress')}" th:errors="*{restaurantAddress}" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Specific</label>
+                <input  type="text" name="description" th:field="*{description}" placeholder="Enter restaurant specific"/>
+            </div>
+
+            <div class = "form-group">
+                <label>Image</label>
+                <input  type="file"  th:name="imageFile" />
+                <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
+            </div>
+
+            <div class = form-group>
+                <input type="submit" value="Save" class="btn"/>
+            </div>
+
+        </form>
+    </fieldset>
+</div><!--class container-->
+</body>
+</html>

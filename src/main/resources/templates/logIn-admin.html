@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LogIn manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--<link rel ="stylesheet" href="/add-admin.css">-->
+    <style>
+
+    * {box-sizing: border-box;}
+
+h1.{
+text-align: center}
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 10px;
+  background: #1ca340;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid #1ca340;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: #1ca340;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+        form{
+        max-width:500px;
+        margin:auto;
+        }
+    </style>
+</head>
+
+<body>
+<h1> Save manager</h1>
+<form method="get" th:action="@{/authorization}" th:object="${manager}" >
+    <h2>Register Form</h2>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">
+            Invalid username or password.
+        </div>
+    </div>
+    <div th:if="${param.logout}">
+        <div class="alert alert-info">
+            You have been logged out.
+        </div>
+    </div>
+
+
+    <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="text" th:name = "email" placeholder="Email" name="email">
+    </div>
+
+    <div class="input-container">
+        <i class="fa fa-key icon"></i>
+        <input class="input-field" type="password" th:name = "password" placeholder="Password" name="psw">
+    </div>
+
+
+    <button type="submit" class="btn">LogIn</button>
+</form>
+
+</body>
+</html>
