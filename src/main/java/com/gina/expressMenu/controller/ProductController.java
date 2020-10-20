@@ -90,7 +90,7 @@ public class ProductController {
         return byteObjects;
     }
 
-   
+
 
     @GetMapping("/displayEditProduct/{idProduct}")
     public String displayUpdateForm(@PathVariable("idProduct") Long idProduct, Model model){

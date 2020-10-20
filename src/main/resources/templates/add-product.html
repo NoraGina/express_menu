@@ -41,9 +41,7 @@ input{
     font-size:2em;
 }
 
-.product-box{
-    padding: 20px;
-}
+
 
 .form-group{
     padding-bottom:12px;
@@ -136,7 +134,7 @@ input{
             <input type="hidden" th:field="*{restaurant.idRestaurant}"/>
             <input type="text" disabled th:value="*{restaurant.restaurantName}"/><br>
             <label for="productName" class="lbl">Product name</label><br>
-            <input class="txt" th:field="*{productName}" type="text" id="productName" required name="productName"/><br><br>
+            <input class="txt" th:field="*{productName}" type="text" id="productName" required name="productName"/><br>
             <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="text-danger"></span>
             <label for="image" class="lbl">Product image</label>
             <input class="txt" type="file"  th:name="imageFile" id ="image" name="image"/><br><br>
@@ -144,7 +142,7 @@ input{
             <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
 
             <label for="description" class="lbl">Description</label><br>
-            <input class="txt" th:field="*{description}" type="text" id="description" name="description" required/><br><br>
+            <input class="txt" th:field="*{description}" type="text" id="description" name="description" required/><br>
             <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
             <label for="price" class="lbl">Price</label><br>
             <input class="txt" th:field="*{price}" type="text" id="price" name="price" required/><br><br><br>

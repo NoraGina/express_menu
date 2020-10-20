@@ -6,7 +6,7 @@
 
     <style>
 
-        *{
+      *{
     margin: 0;
     padding: 0;
 }
@@ -16,7 +16,7 @@ html{
 }
 
 body{
-    background-color: #949fb5;
+    background-color: #4cc785;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -31,13 +31,6 @@ input{
 }
 
 
-
-.header{
-    background-color: #575e6b;
-    padding: 20px;
-    text-align: center;
-}
-
 .container{
     padding:20px;
     width:40%;
@@ -50,9 +43,7 @@ input{
     font-size:2em;
 }
 
-.create-restaurant-form{
-    padding: 20px;
-}
+
 
 .form-group{
     padding-bottom:12px;
@@ -77,6 +68,57 @@ input{
     outline:none;
 }
 
+
+
+@media only screen and (min-width: 576px) {
+    html{
+        font-size :12px;
+    }
+    .container{
+        width: 70%;
+    }
+    .btn{
+        width: 62%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    html{
+        font-size :12px;
+    }
+    .container{
+        width: 70%;
+    }
+    .btn{
+        width: 63%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    html{
+        font-size :14px;
+    }
+
+    .container{
+        width: 50%;
+    }
+    .btn{
+        width: 61%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    html{
+        font-size :16px;
+    }
+
+    .container{
+        width: 50%;
+    }
+    .btn{
+        width: 62%;
+    }
+}
 
 
 @media only screen and (min-width: 576px) {
@@ -138,7 +180,7 @@ input{
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<div class="productBox">
+<div class="container">
     <h2 align="center">Update Product</h2>
 
     <form class="productForm"  method="post"  th:action="'/products/update/' + ${product.idProduct}"  th:object="${product}" enctype="multipart/form-data">
@@ -162,7 +204,7 @@ input{
             <label for="price" class="lbl">Price</label><br>
             <input class="txt" th:field="*{price}" type="text" id="price" name="price" required/><br><br><br>
             <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
-            <input class="btn" type="submit" th:value="Update">
+            <input class="btn"  type="submit" th:value="Update">
 
         </fieldset>
     </form>
