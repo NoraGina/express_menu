@@ -94,6 +94,7 @@ public class ManagerController {
         model.addAttribute("manager", manager);
         model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
         model.addAttribute("product", new Product());
+
         return "manager-operation";
     }
 

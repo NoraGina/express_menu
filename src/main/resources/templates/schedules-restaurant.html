@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Manager restaurants</title>
-
+    <title>Schedules by restaurant</title>
     <style>
-         *{
+      *{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -137,74 +136,43 @@
 </head>
 <body>
 <div class="header">
-    <h1>List of restaurants</h1>
+    <h1>Orar restaurant </h1>
 </div>
-
 <div class="table-wrapper">
     <table class="fl-table">
         <thead>
+        <thead>
         <tr>
-            <th>Id R</th>
             <th>Restaurant name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Image</th>
-            <th>Manager</th>
-            <th>Id M</th>
-            <th>Add product</th>
-            <th>View products</th>
-            <th>Add schedule</th>
-            <th>View schedule</th>
+            <th>Day</th>
+            <th>Open time</th>
+            <th>Close time</th>
             <th>Update</th>
             <th>Delete</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr th:each="restaurant:${restaurants}">
-            <td th:field="${restaurant.idRestaurant}"></td>
-            <td th:text="${restaurant.restaurantName}"></td>
-            <td th:text="${restaurant.restaurantEmail}"></td>
-            <td th:text="${restaurant.restaurantPhone}"></td>
-            <td><img th:src="*{'data:image/jpg;base64,'+ restaurant.imageAsString}" height="70px" width="90px" alt="Image" /></td>
-            <td th:text="${restaurant.manager.userName}"></td>
-            <td th:field="${restaurant.manager.idManager}"></td>
+        <tr th:each="schedule:${schedules}">
+            <td th:text="${schedule.restaurant.restaurantName}"></td>
+            <td th:text="${schedule.day}"></td>
+            <td th:text="${schedule.openTime}"></td>
+            <td th:text="${schedule.closeTime}" ></td>
             <td>
-                <a  th:href="@{/displayAddFormProduct/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                   Add product
-                </a><!-- <img src="images/view-icon.png" th:src="@{images/view-icon.png}" alt="View restaurants">restaurants-->
-            </td>
-            <td>
-                <a  th:href="@{/products-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                    View products
+                <a  th:href="@{/displayEditSchedule/{idSchedule}(idSchedule=${schedule.idSchedule})}">
+                    Edit
                 </a>
             </td>
             <td>
-                <a  th:href="@{/displayAddFormSchedule/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                   Add schedule
-                </a>
-            </td>
-
-            <td>
-                <a  th:href="@{/schedules-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                    View schedules
-                </a>
-            </td>
-            <td>
-                <a  th:href="@{/displayEditRestaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                    Edit restaurant
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/restaurants/delete/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
-                    Delete restaurant
+                <a th:href="@{/schedules/delete/{idSchedule}(idSchedule=${schedule.idSchedule})}">
+                   Delete
                 </a>
             </td>
         </tr>
         </tbody>
     </table>
-    <p><a th:href="@{/manager-operation}">Back</a></p>
+    <p><a th:href="@{/manager-operation}"><img src="images/blue-home-icon32.png" th:src="@{images/blue-home-icon32.png}" alt="Home"></a></p>
 </div>
-
 
 </body>
 </html>

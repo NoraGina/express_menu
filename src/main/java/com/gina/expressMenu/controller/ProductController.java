@@ -127,14 +127,7 @@ public class ProductController {
         return "manager-operation";
     }
 
-    /*@PostMapping("/products/update/{productName}")
-    public String updateRestaurant(@PathVariable("productName") Long idProduct, @Valid @ModelAttribute("restaurant")  RestaurantDTO restaurantDTO, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "update-product";
-        }
-        restaurantService.save(restaurantDTO);
-        return "redirect:/products-list";
-    }*/
+
 
     @GetMapping("/products/delete/{idProduct}")
     public String deleteProduct(@PathVariable("idProduct") Long idProduct, Model model) {
