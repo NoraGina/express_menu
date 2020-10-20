@@ -161,20 +161,20 @@
         </thead>
         <tbody>
         <tr th:each="restaurant:${restaurants}">
-            <td th:text="${restaurant.idRestaurant}"></td>
+            <td th:field="${restaurant.idRestaurant}"></td>
             <td th:text="${restaurant.restaurantName}"></td>
             <td th:text="${restaurant.restaurantEmail}"></td>
             <td th:text="${restaurant.restaurantPhone}"></td>
             <td><img th:src="*{'data:image/jpg;base64,'+ restaurant.imageAsString}" height="70px" width="90px" alt="Image" /></td>
             <td th:text="${restaurant.manager.userName}"></td>
-            <td th:text="${restaurant.manager.idManager}"></td>
+            <td th:field="${restaurant.manager.idManager}"></td>
             <td>
                 <a  th:href="@{/displayAddFormProduct/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
                    Add product
                 </a><!-- <img src="images/view-icon.png" th:src="@{images/view-icon.png}" alt="View restaurants">restaurants-->
             </td>
             <td>
-                <a  th:href="@{/products-restaurant/{idRestaurant}{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                <a  th:href="@{/products-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
                     View products
                 </a>
             </td>
@@ -202,7 +202,7 @@
         </tr>
         </tbody>
     </table>
-    <p><a th:href="@{/displayAdminHome}"><img src="images/blue-home-icon32.png" th:src="@{images/blue-home-icon32.png}" alt="Home"></a></p>
+    <p><a th:href="@{/manager-operation}">Back</a></p>
 </div>
 
 

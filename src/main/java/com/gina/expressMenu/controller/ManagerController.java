@@ -1,6 +1,7 @@
 package com.gina.expressMenu.controller;
 
 import com.gina.expressMenu.model.Manager;
+import com.gina.expressMenu.model.Product;
 import com.gina.expressMenu.repository.ManagerRepository;
 import com.gina.expressMenu.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,7 @@ public class ManagerController {
         if(manager != null){
             httpSession.setAttribute("manager", manager);
             model.addAttribute("manager", manager);
+            model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
             return "manager-operation";
         }
         model.addAttribute("manager", new Manager());
@@ -91,6 +93,7 @@ public class ManagerController {
         Manager manager = (Manager) httpSession.getAttribute("manager");
         model.addAttribute("manager", manager);
         model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
+        model.addAttribute("product", new Product());
         return "manager-operation";
     }
 

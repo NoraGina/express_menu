@@ -78,18 +78,22 @@ public class RestaurantController {
         model.addAttribute("restaurant",restaurant);
       Long id = restaurant.getManager().getIdManager();
         Manager manager = managerRepository.getOne(id);
+        System.out.println("Manager id:" +id);
         model.addAttribute("manager", manager);
+        model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
 
         for(Restaurant restaurant1: restaurantRepository.findAllByManagerId(id)){
             restaurant1.displayRestaurant();
         }
-        return "return/manager-restaurants";
+        return "manager-operation";
+
     }
 
     @GetMapping("/manager-restaurants/{idManager}")
-    public String displayRestaurantsManager(@PathVariable("idManager") Long idManager,  Model model){
-
+    public String displayRestaurantsManager( @PathVariable("idManager")Long idManager, Model model){
+        Manager manager = (Manager) httpSession.getAttribute("manager");
         model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(idManager));
+
         return "manager-restaurants";
     }
 
@@ -127,6 +131,8 @@ public class RestaurantController {
                                    @Valid @ModelAttribute("restaurant")  Restaurant restaurant,
                                    @RequestParam("imageFile") MultipartFile file ,
                                    BindingResult result, Model model) {
+        Manager manager = (Manager) httpSession.getAttribute("manager");
+        model.addAttribute("manager", manager);
         if (result.hasErrors()) {
             return "update-restaurant";
         }
@@ -139,13 +145,16 @@ public class RestaurantController {
             e.printStackTrace();
         }
 
-        return "redirect:/managers-list";
+        return "manager-operation";
     }
 
     @GetMapping("/restaurants/delete/{idRestaurant}")
-    public String deleteRestaurant(@PathVariable("idRestaurant") Long idRestaurant) {
+    public String deleteRestaurant(@PathVariable("idRestaurant") Long idRestaurant, Model model) {
         restaurantRepository.deleteById(idRestaurant);
-        return "redirect:/managers-list";
+        Manager manager = (Manager) httpSession.getAttribute("manager");
+        model.addAttribute("manager", manager);
+
+        return "manager-operation";
     }
 
 }
