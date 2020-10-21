@@ -43,8 +43,8 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Schedule> scheduleSet;
 
-    /*@OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<OrderCustomer> orderCustomerSet;*/
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<OrderCustomer> orderCustomerSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_manager")
@@ -56,8 +56,8 @@ public class Restaurant {
     }
 
     public Restaurant(Long idRestaurant, String restaurantName, String restaurantEmail, String restaurantPhone,
-                      String restaurantAddress, String description, byte[] image,
-                      Set<Product> productSet, Set<Schedule> scheduleSet, Manager manager) {
+                      String restaurantAddress, String description, byte[] image, Set<Product> productSet,
+                      Set<Schedule> scheduleSet, Set<OrderCustomer> orderCustomerSet, Manager manager) {
         this.idRestaurant = idRestaurant;
         this.restaurantName = restaurantName;
         this.restaurantEmail = restaurantEmail;
@@ -67,6 +67,7 @@ public class Restaurant {
         this.image = image;
         this.productSet = productSet;
         this.scheduleSet = scheduleSet;
+        this.orderCustomerSet = orderCustomerSet;
         this.manager = manager;
     }
 
@@ -148,7 +149,13 @@ public class Restaurant {
         this.scheduleSet = scheduleSet;
     }
 
+    public Set<OrderCustomer> getOrderCustomerSet() {
+        return orderCustomerSet;
+    }
 
+    public void setOrderCustomerSet(Set<OrderCustomer> orderCustomerSet) {
+        this.orderCustomerSet = orderCustomerSet;
+    }
 
     public Manager getManager() {
         return manager;

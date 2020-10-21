@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -35,20 +36,29 @@ public class Product {
     @NotFound(action = NotFoundAction.IGNORE)
     private Restaurant restaurant;
 
-
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    private Set<OrderItem> orderItemSet;
 
     public Product() {
     }
 
-    public Product(Long idProduct, String productName, String description, byte[] image, Double price,
-                   Restaurant restaurant) {
+    public Product(Long idProduct, String productName, String description, byte[] image,
+                   Double price, Restaurant restaurant, Set<OrderItem> orderItemSet) {
         this.idProduct = idProduct;
         this.productName = productName;
         this.description = description;
         this.image = image;
         this.price = price;
         this.restaurant = restaurant;
+        this.orderItemSet = orderItemSet;
+    }
 
+    public Set<OrderItem> getOrderItemSet() {
+        return orderItemSet;
+    }
+
+    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
+        this.orderItemSet = orderItemSet;
     }
 
     public Long getIdProduct() {
