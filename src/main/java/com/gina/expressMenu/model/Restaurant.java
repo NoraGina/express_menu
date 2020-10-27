@@ -4,6 +4,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -153,10 +155,21 @@ public class Restaurant {
         Schedule schedule1 = schedule;
     }
 
-    public Schedule getSchedule(Restaurant restaurant){
-        Schedule schedule = new Schedule(restaurant);
+    public Schedule getSchedule( ){
 
-        return schedule;
+        for(Schedule schedule:this.scheduleSet){
+            if(schedule.getDay() == getDayOfWeek(LocalDate.now())){
+                return schedule;
+            }
+        }
+
+        return null;
+    }
+
+    public  int getDayOfWeek(LocalDate date) {
+
+        DayOfWeek day = date.getDayOfWeek();
+        return day.getValue();
     }
 
     /*public Schedule getSchedule(){

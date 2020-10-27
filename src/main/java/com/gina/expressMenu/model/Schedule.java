@@ -40,8 +40,9 @@ public class Schedule {
         this.closeTime = closeTime;
     }
 
-    public Schedule(Restaurant restaurant) {
+    public Schedule(Restaurant restaurant, int day) {
         this.restaurant = restaurant;
+        this.day = day;
     }
 
     public Long getIdSchedule() {

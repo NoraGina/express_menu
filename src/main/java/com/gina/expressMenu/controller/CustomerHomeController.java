@@ -37,14 +37,23 @@ public class CustomerHomeController {
     @GetMapping("/displayCustomerHome")
     public String displayClientHome(Model model){
         List<Restaurant>restaurants = restaurantRepository.findAll();
-
-       /* for(Restaurant restaurant: restaurants){
-            Long idRestaurant = restaurant.getIdRestaurant();
-           Schedule schedule = scheduleRepository.findByDayAndIdRestaurant(getDayOfWeek(LocalDate.now()), idRestaurant);
-            model.addAttribute("schedule", schedule);
-           // model.addAttribute("openTime", schedule.getOpenTime());
-        }*/
         model.addAttribute("restaurants", restaurants);
+       for(Restaurant restaurant: restaurants){
+
+           Schedule schedule = restaurant.getSchedule();
+          /* if(schedule == null){
+               throw new RuntimeException();
+           }*/
+          try{
+              if (schedule != null){
+                  model.addAttribute("schedule", schedule);
+              }
+          }catch(Exception e){
+              e.printStackTrace();
+          }
+
+        }
+
 
         return "customer-home";
     }

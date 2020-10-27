@@ -61,7 +61,9 @@ img{
             </p>
             <p th:text="${restaurant.restaurantName}"></p>
             <p th:name="idRestaurant"></p>
-            <p th:text="${schedule.openTime}"></p>
+        <!--<p th:text="${schedule?.openTime}"></p>-->
+        <label>Open:</label><span th:text="${restaurant.schedule.openTime}"></span>
+        <label>Close:</label><span th:text="${restaurant.schedule.closeTime}"></span>
 
     </div>
 
