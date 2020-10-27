@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <title>Main page</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap');
-
-* {
-    padding: 0;
-    margin: 0;
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;1,500;1,600;1,700&family=Grenze+Gotisch:wght@400;700&display=swap');
+*{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
 }
 
 body {
@@ -19,37 +20,267 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
 
-    font-family: 'Vibur', cursive;
-    /*   the main font */
-    font-family: 'Abel', sans-serif;
     opacity: .95;
     /* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
 }
+ q{
+    font-family: Poppins;
+    font-size: 14px;
+}
+.col-p{
+    font-family: Poppins;
+    font-size: 20px;
+}
+.footer-p{
+    font-family: Poppins;
+    font-size: 14px;
+}
 
-a{
-    font-size: 30px;
-    text-transform: uppercase;
-    color: #5a85db;
-}
-.container{
+.topnav {
+    background-color:#000003;
+    overflow: hidden;
+  }
+  .logo{
+      color: #f2f2f2;
+      float:left;
+      font-family: Exo+2;
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 700;
+      padding-left: 15px;
+      padding-top: 19px;
+  }
+  .topnav a {
+    border-radius: 10px;
+    color: #f2f2f2;
+    display: block;
+    float: right;
+    font-family:Poppins ;
+    font-size: 17px;
+    margin-left: 2px;
+    padding: 18px 16px 24px;
     text-align: center;
-    margin-top: 200px;
+    text-decoration: none;
+
+  }
+  .items{
+      padding-right: 50px;
+  }
+
+  /* Change the color of links on hover */
+  .topnav a:hover {
+
+    color:#8d93f2;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #1b2170,
+                0 0 5px #3741bf;
+  }
+  .topnav a.active {
+    background-color:#2d8745;
+    color: white;
+  }
+
+  /* Hide the link that should open and close the topnav on small screens */
+  .topnav .icon {
+    display: none;
+  }
+
+  .topnav a::after{
+    clear: both;
+  }
+
+  .logo::after{
+      clear: both;
+  }
+
+  .main-container{
+      padding:5px;
+  }
+  .column {
+    float: left;
+    padding: 5px;
+    width: 33.33%;
+
+  }
+
+
+  .column h3{
+      padding-bottom: 6px;
+  }
+
+  .main-img{
+      height: 400px;
+      padding: 5px 50px;
+  }
+  #col-1{
+    font-family:Poppins ;
+    font-size: 24px;
+    padding: 30px 80px 75px;
+  }
+  #col-3{
+    font-family:Poppins ;
+    font-size: 24px;
+    padding-top: 30px;
+  }
+
+  /* Clear floats after the columns */
+  .main-container:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+
+  .column-footer {
+    padding: 10px 20px;
+    float: left;
+    width: 25%;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+    /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+    }
+    .logo{
+        float: none;
+        display: block;
+    }
+    .column{
+        float: none;
+        display: block;
+    }
+.column-footer{
+    float: none;
+        display: block;
 }
-h3{
-    text-align: center;
-}
+
+  }
+
+  /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+  @media screen and (max-width: 600px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive a.icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .logo.responsive{
+        float: none;
+        display: block;
+    }
+    .column.responsive{
+        float: none;
+        display: block;
+    }
+    .column-footer.responsive{
+        float: none;
+        display: block;
+    }
+  }
+
 
     </style>
 </head>
 
 <body>
-<div class="container">
-    <h3>Are you?</h3><br>
+<!--<a th:href="@{/displayCustomerHome}" target="_blank">Customer</a>&nbsp;&nbsp;&nbsp;
+    <span><b>/</b></span>&nbsp;&nbsp;&nbsp;
+    <a th:href="@{/displayAdminHome}"  target="_blank">Manager</a>-->
+<div class="topnav" id="myTopnav">
+    <div class="logo">
+        <span>Food delivery application</span>
+    </div>
+    <div class="items">
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i></a>
+        <a href="#about"><i class="fas fa-file-contract"></i>Contact</a>
+        <a th:href="@{/displayCustomerHome}" target="_blank"><i class="fas fa-users" aria-hidden="true"></i>Customer</a>
+        <a th:href="@{/displayAdminHome}"  target="_blank"><i class="fas fa-user" aria-hidden="true"></i>Manager</a>
+        <a href="#home" class="active"><i class="fas fa-home"></i>Home</a>
 
-    <!--<a th:href="@{/displayCustomerHome}" target="_blank">Customer</a>&nbsp;&nbsp;&nbsp;-->
-    <a th:href="@{/displayAdminHome}"  target="_blank">Manager</a>
+    </div><!--end class items-->
+</div><!--end class topnav-->
 
+<div class="main-container">
+    <div class="column" id="col-1">
+        <h3>Customer</h3>
+        <p class="col-p">SignUp</p>
+        <p class="col-p">LogIn</p>
+        <p class="col-p">Add to cart</p>
+        <p class="col-p">View order</p>
+        <p class="col-p">Update, Delete, Save Order</p>
+    </div><!--end class column 1-->
+
+    <div class="column">
+        <img class="main-img" src="art-1544216481.png" th:src="@{images/art-1544216481.png}">
+    </div><!--end class column 2-->
+
+    <div class="column" id="col-3">
+        <h3>Manager</h3>
+        <p class="col-p">SignUp</p>
+        <p class="col-p">LogIn</p>
+        <p class="col-p">Add Restaurant</p>
+        <p class="col-p">View restaurants</p>
+        <p class="col-p">Update, Delete, Save Restaurant</p>
+        <p class="col-p">Add Product</p>
+        <p class="col-p">View products</p>
+        <p class="col-p">Update, Delete, Save Product</p>
+    </div><!--end class column-->
+</div><!--end class main-container-->
+<div class="footer">
+    <div class="row">
+    </div>
+    <div class="column-footer">
+        <img th:src="@{images/express-three2.jpg}" src="images/express-three2.jpg" class="footer-img"/>
+    </div>
+    <div class="column-footer">
+        <h3>Contact us:</h3>
+        <p class="footer-p"> <i class="fas fa-phone-alt"></i>0753 985 264</p>
+        <p class="footer-p"> <i class="fas fa-at"></i>gina.agapescu@gmail.com</p>
+    </div>
+    <div class="column-footer">
+        <h3>Follow as</h3>
+        <i class="fab fa-facebook-f"></i>
+        <a href="https://www.facebook.com/gina.agapescu/" target="_blank">Facebook page</a><br>
+        <i class="fab fa-linkedin"></i>
+        <a href="https://www.linkedin.com/in/gina-agapescu-b5994218a/" target="_blank">Linkedin page</a>
+
+    </div>
+    <div class="column-footer">
+        <q>Humor keeps us alive. Humor and food. Don't forget food. You can go a week without laughing.</q>
+        <q>Joss Whedon</q>
+    </div>
+    <div class="column-footer"></div>
 </div>
+</div>
+
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
+<script>
+        function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
+
 
 </body>
 </html>

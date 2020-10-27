@@ -40,6 +40,10 @@ public class Schedule {
         this.closeTime = closeTime;
     }
 
+    public Schedule(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     public Long getIdSchedule() {
         return idSchedule;
     }

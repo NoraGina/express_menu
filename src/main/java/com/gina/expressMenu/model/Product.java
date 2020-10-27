@@ -36,7 +36,7 @@ public class Product {
     @NotFound(action = NotFoundAction.IGNORE)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     private Set<OrderItem> orderItemSet;
 
     public Product() {

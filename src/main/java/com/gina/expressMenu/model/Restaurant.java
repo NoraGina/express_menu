@@ -149,6 +149,23 @@ public class Restaurant {
         this.scheduleSet = scheduleSet;
     }
 
+    public void setSchedule(Schedule schedule){
+        Schedule schedule1 = schedule;
+    }
+
+    public Schedule getSchedule(Restaurant restaurant){
+        Schedule schedule = new Schedule(restaurant);
+
+        return schedule;
+    }
+
+    /*public Schedule getSchedule(){
+        Schedule schedule = null;
+        for(Schedule schedule1 :scheduleSet){
+            schedule
+        }
+    }*/
+
     public Set<OrderCustomer> getOrderCustomerSet() {
         return orderCustomerSet;
     }
@@ -192,10 +209,7 @@ public class Restaurant {
                 ", restaurantPhone='" + restaurantPhone + '\'' +
                 ", restaurantAddress='" + restaurantAddress + '\'' +
                 ", description='" + description + '\'' +
-                ", image=" + Arrays.toString(image) +
-                ", productSet=" + productSet +
-                ", scheduleSet=" + scheduleSet +
-                ", manager=" + manager +
+
                 '}';
     }
 

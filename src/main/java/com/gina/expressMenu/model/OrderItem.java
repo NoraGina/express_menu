@@ -13,7 +13,7 @@ public class OrderItem {
     @Column(name = "id_order_item")
     private Long idOrderItem;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     @NotFound(action = NotFoundAction.IGNORE)
     private Product product;

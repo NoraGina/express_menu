@@ -113,6 +113,14 @@ public class OrderCustomer {
         this.status = status;
     }
 
+    public double getTotal(){
+        double total = 0;
+        for(OrderItem orderItem:orderItemList){
+            total += orderItem.getIdOrderItem()* orderItem.getProduct().getPrice();
+        }
+        return total;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

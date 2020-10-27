@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View products</title>
+    <style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+background: #74ebd5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+h1{
+text-align:center;
+}
+
+p{
+font-size:20px;
+}
+
+img{
+    height: 170px;
+    width: 200px;
+    border-radius:10px;
+}
+
+.row{
+width:100%;
+}
+.row td{
+border-bottom:1px solid #d7dbe0;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>View products</h1>
+    </div>
+    <br>
+    <br>
+    <hr>
+
+<table class="row">
+    <tbody>
+    <tr th:each="product:${products}">
+        <td th:text="${product.productName}"></td>
+        <td><img th:src="*{'data:image/jpg;base64,'+ product.imageAsString}"  alt="Image" /></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.price}"></td>
+<br>
+    </tr>
+    </tbody>
+</table>
+    <a th:href="@{/displayCustomerOrder}"><button onclick="myFunction()">Place order</button></a>
+</div>
+<script>
+    function myFunction() {
+  alert("Hello! You need to SignUp or LogIn!");
+}
+</script>
+</body>
+</html>

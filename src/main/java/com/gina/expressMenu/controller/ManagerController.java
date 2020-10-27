@@ -28,7 +28,7 @@ public class ManagerController {
 
     @GetMapping("/displayAdminHome")
     public String displayAdminHome(Model model){
-       // model.addAttribute("managers", managerRepository.findAll());
+
         return "admin-home";
     }
 

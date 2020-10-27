@@ -11,7 +11,7 @@
 
     * {box-sizing: border-box;}
 
-h1.{
+h1{
 text-align: center}
 .input-container {
   display: -ms-flexbox; /* IE10 */
@@ -60,7 +60,7 @@ text-align: center}
 </head>
 
 <body>
-<h1> Save manager</h1>
+<h1> LogIn manager</h1>
 <form method="get" th:action="@{/authorization}" th:object="${manager}" >
     <h2>Register Form</h2>
     <div th:if="${param.error}">

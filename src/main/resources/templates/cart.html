@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Order details</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background: #FFEEEE;
+    background: -webkit-linear-gradient(to right, #DDEFBB, #FFEEEE);
+    background: linear-gradient(to right, #DDEFBB, #FFEEEE);
+
+}
+fieldset{
+    padding: 10px;
+}
+legend{
+    font-style: italic;
+    font-weight: 700;
+}
+table{
+    font-size: 14px;
+    width: 100%;
+}
+th{
+    text-align: center;
+    padding-bottom: 20px;
+}
+td{
+    text-align: center;
+}
+button{
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 5px;
+}
+
+button:active {
+    -webkit-box-shadow: inset 1px 1px 10px #333;
+    -moz-box-shadow:    inset 1px 1px 10px #333;
+    box-shadow:         inset 1px 1px 10px #333;
+ }
+
+#btn-sub{
+    background-color:rgb(40, 57, 73);
+    box-shadow: inset 0 5px 10px rgb(172, 181, 185), 0 1px 1px rgb(40, 57, 73);
+    -o-box-shadow: inset 0 5px 10px rgb(172, 181, 185), 0 1px 1px rgb(40, 57, 73);
+    -webkit-box-shadow: inset 0 5px 10px rgb(172, 181, 185), 0 1px 1px rgb(40, 57, 73);
+    -moz-box-shadow: inset 0 5px 10px rgb(172, 181, 185), 0 1px 1px rgb(40, 57, 73);
+}
+.btn-del{
+    background-color: rgb(235, 7, 7);
+    box-shadow: inset 0 5px 10px rgb(233, 97, 104), 0 1px 1px rgb(235, 7, 7);
+    -o-box-shadow: inset 0 5px 10px rgb(233, 97, 104), 0 1px 1px rgb(235, 7, 7);
+    -webkit-box-shadow: inset 0 5px 10px rgb(233, 97, 104), 0 1px 1px rgb(235, 7, 7);
+    -moz-box-shadow: inset 0 5px 10px rgb(233, 97, 104), 0 1px 1px rgb(235, 7, 7);
+}
+.btn-edit{
+    background: lightgreen;
+   box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
+   -o-box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
+   -webkit-box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
+   -moz-box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
+}
+.container{
+    font-family: Roboto;
+    margin: 2% auto;
+    width:50%;
+}
+.col-order{
+    padding:10px;
+}
+.col-rest{
+    padding: 5px;;
+}
+.col-customer{
+    padding: 5px 50px 10px 50px;
+}
+.lbl{
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    width:20%;
+}
+#ord{
+    padding: 5px;
+}
+#res{
+    padding: 5px 12px 5px 5px;
+}
+#cust-name{
+    padding: 5px 48px 5px 5px;
+}
+#cust-address{
+    padding: 5px 41px 5px 5px;
+}
+#cust-phone{
+    padding: 5px 38px 5px 5px;
+}
+#status{
+    padding:5px 48px 5px 5px;
+}
+#data{
+    padding:5px 56px 5px 5px;
+}
+
+.inputs{
+    font-size: 16px;
+    margin-bottom: 4px;
+    padding: 2px;
+    width:70%;
+}
+.inputs-id{
+    padding: 2px;
+    width: 10%;
+}
+.inputs-total{
+    padding: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+
+}
+.col-total{
+    float: right;
+    padding:30px 5px 5px 5px;
+}
+#txt-total{
+    text-align: right;
+}
+.col-sub{
+    float: right;
+    padding: 5px;
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <fieldset><legend>Informatii comanda</legend>
+        <div class="col-order">
+            <fieldset>
+                <legend>Comanda</legend>
+                <label class="lbl" id="ord">Comanda nr:</label>
+                <input th:field="${orderCustomer.idOrderCustomer}"  type="text" class="inputs"/><br>
+                <label class="lbl" id="status">Status</label>
+                <input th:field="${orderCustomer.status}"  type="text" class="inputs"/><br>
+                <label class="lbl" id="data">Data:</label>
+                <input th:field="${orderCustomer.date}" type="text" class="inputs"/>
+            </fieldset>
+        </div><!--end class order-->
+        <fieldset>
+            <legend>Restaurant</legend>
+            <div class="col-rest">
+                <label class="lbl" id="res">Restaurant:</label>
+                <input th:field="${restaurant.restaurantName}" class="inputs"  type="text"/>
+                <input th:field="${restaurant.idRestaurant}" class="inputs-id" type="hidden">
+            </div><!--end class rest-->
+        </fieldset>
+        <fieldset>
+            <legend>Client</legend>
+            <div class="col-customer">
+                <label class="lbl" id="cust-name">Nume:</label>
+                <input th:field="${customer.customerName}" class="inputs" id="txt-name" type="text"/>
+                <input th:field="${customer.idCustomer}" class="inputs-id" type="hidden"><br>
+                <label class="lbl" id="cust-address">Adresa: </label>
+                <input th:field="${customer.address}" class="inputs" type="text"/><br>
+                <label class="lbl" id="cust-phone">Telefon: </label>
+                <input th:field="${customer.phone}" class="inputs" type="text"/>
+            </div><!-- end class customer-->
+        </fieldset>
+        <fieldset>
+            <legend>Produse</legend>
+            <table>
+                <thead>
+                <tr>
+
+                    <th>Denumire</th>
+                    <th>Pret</th>
+                    <th>Cantitate</th>
+                    <th>Valoare</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem:${orderCustomer.orderItemList}">
+                    <td th:text="${orderItem.product.productName}"></td>
+                    <td th:text="${orderItem.product.price}"></td>
+                    <td th:text="${orderItem.quantity}"></td>
+                    <td th:text="${#numbers.formatDecimal(orderItem.value, 0, 'COMMA', 2, 'POINT')}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-total">
+                <label class="lbl">Total de plata</label>
+                <b><span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}" class="inputs-total" id="txt-total"></span></b>
+
+            </div>
+        </fieldset>
+        <div class="col-sub">
+
+            <a th:href="@{/orderCustomer/delete/{idOrderCustomer}(idOrderCustomer=${orderCustomer.idOrderCustomer})}">
+
+                    <button type="submit" class="btn-del"> <i class="far fa-trash-alt">Anuleaza</i></button>
+
+            </a>
+
+            <a th:href="@{/displayEditOrder/{idOrderCustomer}(idOrderCustomer=${orderCustomer.idOrderCustomer})}">
+
+                    <button type="submit" class="btn-edit"><i class="fas fa-pen">Editeaza </i></button>
+
+            </a>
+
+            <a th:href="@{/displayCustomerHome}">
+
+                    <button type="submit" id="btn-sub" onclick="myFunction()"> <i class="fas fa-cart-arrow-down">Salveaza</i></button>
+
+            </a>
+
+        </div>
+    </fieldset>
+</div><!--end class container-->
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
+<script>
+     function myFunction() {
+  alert("Comanada d-voatra a fost accepata");
+}
+</script>
+</body>
+</html>

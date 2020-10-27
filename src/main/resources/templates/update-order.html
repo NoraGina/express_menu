@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+
+    body{
+    background: #a8ff78;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+    }
+
+
+
+    a{
+    color:#d0d7db;
+    }
+    .main-container{
+    margin-top: 10px;
+    padding: 20px;
+    }
+    img{
+    height: 250px;
+    width: 300px;
+    }
+    td{
+    padding: 50px;
+    }
+    .col{
+    float: left;
+    width: 33.33%;
+    padding: 30px;
+    }
+
+    h2{
+    text-align:center;
+    }
+</style>
+</head>
+<body><!--th:action="'/restaurants/update/' + ${restaurant.idRestaurant}"-->
+<form method="post"  th:action="'/orderCustomer/update/' + ${orderCustomer.idOrderCustomer}"  th:object="${orderCustomer}">
+    <fieldset>
+
+        <input type="hidden" th:field="*{restaurant.idRestaurant}" />
+        <input th:field="*{restaurant.restaurantName}"/>
+        <input  th:field="*{customer.idCustomer}" />
+        <input  th:field = "*{date}"  th:text="${#temporals.formatISO(localDate)}"/>
+        <input th:field = "*{time}" th:text="${#temporals.formatISO(timestamp)}"/>
+        <input th:field = "*{status}" />
+
+        <table>
+            <thead>
+            <tr>
+                <th>Product name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${orderCustomer.orderItemList} ">
+
+                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.productName}" /></td>
+                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.idProduct}" type="hidden"/>
+
+                    <input th:field="*{orderItemList[__${rowStat.index}__].product.description}" /></td>
+                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.price}" /></td>
+                <td ><input type="number" th:field="*{orderItemList[__${rowStat.index}__].quantity}" th:value="orderItem.quantity"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" id="submitButton" th:value="Save">
+    </fieldset>
+</form>
+
+
+</body>
+</html>

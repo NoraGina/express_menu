@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer home page</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+}
+
+p{
+font-family:Arimo;
+    font-size:18px;
+}
+body{
+    background-color: #d4c7cb;
+}
+h1{
+padding-top:10px;
+font-family:Arimo;
+    font-size:24px;
+    font-style:italic;
+text-align:center;
+}
+a{
+    color:#d0d7db;
+}
+.main-container{
+
+    padding: 0px 70px;
+}
+img{
+    height: 250px;
+    width: 300px;
+}
+
+
+.col{
+    float: left;
+    width: 33%;
+    padding: 30px;
+}
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1>Customer home page</h1>
+</div>
+
+<div class="main-container">
+    <div class="col" th:each="restaurant:${restaurants}">
+            <p><a th:href="@{/displayRestaurants/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}" target="_blank">
+                <img th:src="*{'data:image/jpg;base64,'+ restaurant.imageAsString}" height="70px" width="90px" alt="Image">
+            </a>
+            </p>
+            <p th:text="${restaurant.restaurantName}"></p>
+            <p th:name="idRestaurant"></p>
+            <p th:text="${schedule.openTime}"></p>
+
+    </div>
+
+</div>
+</body>
+</html>
