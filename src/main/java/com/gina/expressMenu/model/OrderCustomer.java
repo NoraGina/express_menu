@@ -2,6 +2,7 @@ package com.gina.expressMenu.model;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class OrderCustomer {
     private Long idOrderCustomer;
 
     @Column(name = "date")
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate date;
 
     @Column(name = "time")
@@ -104,7 +106,6 @@ public class OrderCustomer {
     }
 
 
-
     public Status getStatus() {
         return status;
     }
@@ -116,7 +117,15 @@ public class OrderCustomer {
     public double getTotal(){
         double total = 0;
         for(OrderItem orderItem:orderItemList){
-            total += orderItem.getIdOrderItem()* orderItem.getProduct().getPrice();
+            total += orderItem.getQuantity()* orderItem.getProduct().getPrice();
+        }
+        return total;
+    }
+
+    public double getAmount(){
+        double total = 0;
+        for(OrderItem orderItem:this.orderItemList){
+            total += orderItem.getQuantity()* orderItem.getProduct().getPrice();
         }
         return total;
     }

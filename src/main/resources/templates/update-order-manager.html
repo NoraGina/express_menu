@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update order</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color:#d0f5ae;
+    font-family: Lato;
+}
+fieldset{
+    border-radius: 10px;
+    border:1px solid #348a47;
+    font-size: 17px;
+
+}
+
+legend{
+    color: #348a47;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 700;
+}
+
+button{
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 3px 10px 3px;
+     transition-duration: 0.4s;
+}
+
+.btn-save{
+  background: #1a5e29;
+  color: azure;
+}
+
+.btn-save:hover {
+    background-color: #20e34a;
+     color:black;
+       }
+
+.btn-back{
+     background-color: #09b02d;
+     color:azure;
+}
+
+.btn-back:hover{
+    background: #51db6f;
+    color: black;
+}
+.container{
+    font-size: 15px;
+    width: 40%;
+    margin: auto;
+    padding: 10px;
+}
+.order-form{
+   padding:30px 10px 20px;
+    width: 100%;
+}
+
+.lbl{
+    display:inline-block;
+   padding:3px;
+   margin-left: 3px;
+   margin-bottom: 3px;
+    width: 30%;
+}
+
+.inputs{
+    padding:3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    width: 65%;
+}
+.products{
+    padding:5px 10px 5px;
+    width: 100%;
+}
+
+.products th{
+    padding-bottom: 3px;
+}
+
+.products td{
+    text-align: center;
+}
+
+.btn-container{
+    float: right;
+    padding: 5px 20px 5px;
+}
+.btn-container{
+      clear:right;
+  }
+.btn-container-back{
+    float: right;
+    padding: 5px 150px 5px;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <form method="post" class="order-form" th:action="'/orderCustomers/update/' + ${orderCustomer.idOrderCustomer}"  th:object="${orderCustomer}">
+        <fieldset>
+            <legend>Update order</legend>
+            <label class="lbl">Comanada Nr:</label>
+            <input class="inputs" th:field="*{idOrderCustomer}"/> <br>
+            <label class="lbl">Restaurant: </label>
+            <input type="text" th:field="*{restaurant.restaurantName}" class="inputs"/>
+            <input class="inputs" type="hidden" th:field="*{restaurant.idRestaurant}" /><br>
+            <label class="lbl">Customer:</label>
+            <input type="text" th:field="*{customer.customerName}" class="inputs"/>
+            <input  type="hidden" th:field="*{customer.idCustomer}" class="inputs" /><br>
+            <label class="lbl">Date:</label><input  type="text" th:field = "*{date}"  th:text="${#temporals.formatISO(localDate)}" class="inputs"/><br>
+            <label class="lbl">Time:</label><input type="text" th:field = "*{time}" th:text="${#temporals.formatISO(timestamp)}" class="inputs"/><br>
+            <label class="lbl">Status</label><select name="status" class="inputs">
+                <option th:each="status : ${T(com.gina.expressMenu.model.Status).values()}"
+                        th:value="${status}" th:text="${status}"></option>
+            </select><br><br>
+            <table class="products">
+                <thead>
+                <th>Product name</th>
+                <th>Product price</th>
+                <th>Quantity</th>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem:${orderCustomer.orderItemList}">
+                    <td th:text="${orderItem.product.productName}"></td>
+                    <td th:text="${orderItem.product.price}"></td>
+                    <td th:text="${orderItem.quantity}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="btn-container">
+                <button type="submit" class="btn-save"> <i class="fas fa-pen">Editeaza</i></button>
+            </div>
+
+        </fieldset>
+    </form>
+    <div class="btn-container">
+        <button class="btn-back"> <a th:href="@{/manager-operation}"><i class="fas fa-arrow-left">Back</i></a></button>
+    </div>
+</div>
+
+
+
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
+</body>
+</html>

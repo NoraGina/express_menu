@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>View products</title>
     <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap');
     * {
     box-sizing: border-box;
     margin: 0;
@@ -13,6 +15,7 @@ body{
 background: #74ebd5;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+font-family:Oswald;
 }
 
 h1{
@@ -20,20 +23,37 @@ text-align:center;
 }
 
 p{
-font-size:20px;
+font-size:16px;
+}
+
+button{
+border:none;
+border-radius:5px;
+font-size:16px;
+font-weight:500;
+padding:5px;
 }
 
 img{
-    height: 170px;
-    width: 200px;
+    height: 120px;
+    width: 150px;
     border-radius:10px;
 }
 
 .row{
+padding-left:20px;
 width:100%;
 }
-.row td{
-border-bottom:1px solid #d7dbe0;
+
+ .row td{
+border-bottom: thin solid #f2f5f7;
+}
+
+.col-btn{
+float:right;
+padding-top:10px;
+padding-right:20px;
+padding-bottom:30px;
 }
 
     </style>
@@ -54,12 +74,20 @@ border-bottom:1px solid #d7dbe0;
         <td><img th:src="*{'data:image/jpg;base64,'+ product.imageAsString}"  alt="Image" /></td>
         <td th:text="${product.description}"></td>
         <td th:text="${product.price}"></td>
-<br>
     </tr>
+
     </tbody>
 </table>
-    <a th:href="@{/displayCustomerOrder}"><button onclick="myFunction()">Place order</button></a>
+    <div class="col-btn">
+        <a th:href="@{/displayCustomerOrder}">
+            <button id="order-btn" onclick="myFunction()"> <i class="fas fa-shopping-cart">Place order</i></button>
+        </a>
+
+    <a th:href="@{/displayCustomerHome}" ><button id="back-btn" ><i class="fas fa-arrow-left" aria-hidden="true"></i>Back</button></a>
+
+    </div>
 </div>
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 <script>
     function myFunction() {
   alert("Hello! You need to SignUp or LogIn!");

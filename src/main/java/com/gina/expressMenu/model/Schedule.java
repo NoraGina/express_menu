@@ -1,9 +1,14 @@
 package com.gina.expressMenu.model;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -77,6 +82,7 @@ public class Schedule {
         this.openTime = openTime;
     }
 
+
     public LocalTime getCloseTime() {
         return closeTime;
     }
@@ -84,6 +90,39 @@ public class Schedule {
     public void setCloseTime(LocalTime closeTime) {
         this.closeTime = closeTime;
     }
+
+    public String getDayValue(){
+        String dayValue = "";
+        switch (day){
+            case 1:
+                dayValue="Luni";
+                break;
+            case 2:
+                dayValue="Marti";
+                break;
+            case 3:
+                dayValue = "Miercuri";
+                break;
+            case 4:
+                dayValue = "Joi";
+                break;
+            case 5:
+                dayValue = "Vineri";
+                break;
+            case 6:
+                dayValue = "Sambata";
+                break;
+            case 7:
+                dayValue= "Duminica";
+                break;
+
+            default:
+                dayValue = "Invalid day";
+        }
+        return dayValue;
+
+    }
+
 
     @Override
     public boolean equals(Object o) {

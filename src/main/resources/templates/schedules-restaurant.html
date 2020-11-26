@@ -32,7 +32,7 @@
 
     .fl-table {
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     border: none;
     border-collapse: collapse;
@@ -43,13 +43,14 @@
     }
 
     .fl-table td, .fl-table th {
+    font-size:16px;
     text-align: center;
     padding: 8px;
     }
 
     .fl-table td {
     border-right: 1px solid #f8f8f8;
-    font-size: 12px;
+    font-size: 14px;
     }
 
     .fl-table thead th {
@@ -67,6 +68,11 @@
     background: #F8F8F8;
     }
 
+    button{
+    border:none;
+    padding:5px;
+    font-size:14px;
+}
     /* Responsive */
 
     @media (max-width: 767px) {
@@ -171,8 +177,9 @@
         </tr>
         </tbody>
     </table>
-    <p><a th:href="@{/manager-operation}"><img src="images/blue-home-icon32.png" th:src="@{images/blue-home-icon32.png}" alt="Home"></a></p>
-</div>
+    <p><a th:href="@{/manager-operation}" ><button id="back-btn" ><i class="fas fa-house-user" aria-hidden="true"></i>Back</button></a></p>
 
+</div>
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 </body>
 </html>

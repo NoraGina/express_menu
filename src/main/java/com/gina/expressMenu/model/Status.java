@@ -4,5 +4,7 @@ public enum Status {
     AFFECTED,
     ACCEPTED,
     REFUSED,
-    DELIVERED
+    DELIVERED;
+    
+
 }

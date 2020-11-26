@@ -64,7 +64,7 @@ td{
     <table>
         <tbody>
         <tr>
-            <td><input type="hidden" th:field="${manager.idManager}"></td>
+            <!--<td><input type="hidden" th:text="${manager.idManager}"></td>-->
             <td><span>Welcome &nbsp;</span><span th:text="${manager.userName}"></span></td>
             <td><a th:href="@{/displayAddFormRestaurant}"><i class="fas fa-plus"><button>Add restaurant</button></i></a></td>
             <td><a th:href="@{/manager-restaurants/{idManager}(idManager=${manager.idManager})}"><i class="fas fa-binoculars"><button>View restaurants</button></i></a></td>

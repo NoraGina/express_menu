@@ -40,9 +40,7 @@ public class CustomerOrderController {
 
     @GetMapping("/productsRestaurant/{idRestaurant}")
     public String getProductsByRestaurant(@PathVariable("idRestaurant") Long idRestaurant,
-                                          Model model)
-    {
-
+                                          Model model) {
         List<OrderItem> orderItemList = new ArrayList<>();
         OrderCustomer orderCustomer = new OrderCustomer();
         Customer customer = (Customer) httpSession.getAttribute("customer");
@@ -54,7 +52,6 @@ public class CustomerOrderController {
         }
 
         orderCustomer.setOrderItemList(orderItemList);
-
         orderCustomer.setCustomer(customer);
         orderCustomer.setDate(LocalDate.now());
         orderCustomer.setStatus(Status.AFFECTED);
@@ -74,12 +71,6 @@ public class CustomerOrderController {
         if (result.hasErrors()) {
             return "orders-item";
         }
-        try{
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
 
         orderCustomer.getOrderItemList().stream().forEach(orderItem -> orderItem.setOrderCustomer(orderCustomer));
         List<OrderItem> nonZeroOi = new ArrayList<>();
@@ -95,7 +86,7 @@ public class CustomerOrderController {
         }
         orderCustomerRepository.save(orderCustomer);
         model.addAttribute("orderCustomer", orderCustomer);
-
+        orderCustomer.setStatus(Status.AFFECTED);
         model.addAttribute("restaurantName", orderCustomer.getRestaurant().getRestaurantName());
         Long id = orderCustomer.getCustomer().getIdCustomer();
         Customer customer = customerRepository.findById(id).get();
@@ -151,7 +142,7 @@ public class CustomerOrderController {
 
         model.addAttribute("orderCustomer", orderCustomer);
         if (result.hasErrors()) {
-            return "update-orderCustomer";
+            return "update-order";
         }
         try{
 
@@ -166,6 +157,7 @@ public class CustomerOrderController {
             for(OrderItem orderItem:nonZeroOi){
                 total += orderItem.getQuantity()* orderItem.getProduct().getPrice();
             }
+
             orderCustomerRepository.save(orderCustomer);
             model.addAttribute("orderCustomer", orderCustomer);
 

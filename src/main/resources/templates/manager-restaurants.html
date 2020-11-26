@@ -27,7 +27,7 @@
     /* Table Styles */
 
     .table-wrapper{
-    margin: 10px 70px 70px;
+    margin: 10px 0px 10px;
     box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
     }
 
@@ -144,30 +144,21 @@
     <table class="fl-table">
         <thead>
         <tr>
-            <th>Id R</th>
             <th>Restaurant name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Image</th>
-            <th>Manager</th>
-            <th>Id M</th>
             <th>Add product</th>
             <th>View products</th>
             <th>Add schedule</th>
             <th>View schedule</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th>All orders</th>
+            <th>Update restaurant</th>
+            <th>Delete restaurant</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="restaurant:${restaurants}">
-            <td th:field="${restaurant.idRestaurant}"></td>
-            <td th:text="${restaurant.restaurantName}"></td>
-            <td th:text="${restaurant.restaurantEmail}"></td>
-            <td th:text="${restaurant.restaurantPhone}"></td>
-            <td><img th:src="*{'data:image/jpg;base64,'+ restaurant.imageAsString}" height="70px" width="90px" alt="Image" /></td>
-            <td th:text="${restaurant.manager.userName}"></td>
-            <td th:field="${restaurant.manager.idManager}"></td>
+
+            <td th:text="${restaurant.restaurantName}"><input type="text" th:field="${restaurant.idRestaurant}"/></td>
+
             <td>
                 <a  th:href="@{/displayAddFormProduct/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
                    Add product
@@ -183,12 +174,18 @@
                    Add schedule
                 </a>
             </td>
-
             <td>
                 <a  th:href="@{/schedules-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
                     View schedules
                 </a>
             </td>
+
+            <td>
+                <a  th:href="@{/orders-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                    All orders
+                </a>
+            </td>
+
             <td>
                 <a  th:href="@{/displayEditRestaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
                     Edit restaurant

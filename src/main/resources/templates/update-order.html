@@ -4,59 +4,92 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
-    * {
-    box-sizing: border-box;
+   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+*{
     margin: 0;
     padding: 0;
-    }
+}
 
-    body{
-    background: #a8ff78;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
-    }
-
-
-
-    a{
-    color:#d0d7db;
-    }
-    .main-container{
-    margin-top: 10px;
+body{
+    background-color: #e8faf3;
+    font-family: Oswald;
+}
+fieldset{
+    font-size: 20px;
+    font-weight: 600;
     padding: 20px;
-    }
-    img{
-    height: 250px;
-    width: 300px;
-    }
-    td{
-    padding: 50px;
-    }
-    .col{
-    float: left;
-    width: 33.33%;
-    padding: 30px;
-    }
+}
 
-    h2{
-    text-align:center;
-    }
+table{
+    padding: 10px;
+    width:100%;
+}
+
+table th{
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+table td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align:end;
+}
+
+button{
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.container{
+    padding: 20px;
+}
+.inputs{
+    background-color: #e8faf3;
+    border-style: hidden;
+    padding:5px ;
+    font-size: 16px;
+}
+.inputs:focus{
+outline: none;
+}
+.quantity-input{
+    font-size: 16px;
+    width:15%;
+
+}
+
+.quantity-row{
+    text-align: center;
+}
+
+.btn-container{
+    float: right;
+    font-family: Oswald;
+    font-size: 16px;
+    padding-right: 80px;
+}
+.btn-save{
+    color: lightgray;
+    background-color: #18448c;
+}
+
 </style>
 </head>
 <body><!--th:action="'/restaurants/update/' + ${restaurant.idRestaurant}"-->
+<div class="container">
 <form method="post"  th:action="'/orderCustomer/update/' + ${orderCustomer.idOrderCustomer}"  th:object="${orderCustomer}">
     <fieldset>
-
-        <input type="hidden" th:field="*{restaurant.idRestaurant}" />
-        <input th:field="*{restaurant.restaurantName}"/>
-        <input  th:field="*{customer.idCustomer}" />
-        <input  th:field = "*{date}"  th:text="${#temporals.formatISO(localDate)}"/>
-        <input th:field = "*{time}" th:text="${#temporals.formatISO(timestamp)}"/>
-        <input th:field = "*{status}" />
+        <legend>Editeaza produs</legend>
+         <input class="inputs" type="hidden" th:field="*{restaurant.idRestaurant}" />
+        <input type="hidden" th:field="*{restaurant.restaurantName}" class="inputs"/>
+        <input  type="hidden" th:field="*{customer.idCustomer}" class="inputs" />
+        <input  type="hidden" th:field = "*{date}"  th:text="${#temporals.formatISO(localDate)}" class="inputs"/>
+        <input type="hidden" th:field = "*{time}" th:text="${#temporals.formatISO(timestamp)}" class="inputs"/>
+        <input  type="hidden" th:field = "*{status}"  class="inputs" />
 
         <table>
             <thead>
@@ -70,21 +103,27 @@ background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, F
             </thead>
             <tbody>
             <tr th:each="row : ${orderCustomer.orderItemList} ">
-
-                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.productName}" /></td>
+                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.productName}" class="inputs" /></td>
                 <td><input th:field="*{orderItemList[__${rowStat.index}__].product.idProduct}" type="hidden"/>
 
-                    <input th:field="*{orderItemList[__${rowStat.index}__].product.description}" /></td>
-                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.price}" /></td>
-                <td ><input type="number" th:field="*{orderItemList[__${rowStat.index}__].quantity}" th:value="orderItem.quantity"></td>
+                    <input th:field="*{orderItemList[__${rowStat.index}__].product.description}" class="inputs" /></td>
 
+                <td><input th:field="*{orderItemList[__${rowStat.index}__].product.price}" class="inputs" /></td>
+                <td class="quantity-row">
+                    <input type="number"
+                           th:field="*{orderItemList[__${rowStat.index}__].quantity}"
+                           th:value="orderItem.quantity" class="quantity-input"></td>
             </tr>
             </tbody>
         </table>
-        <input type="submit" id="submitButton" th:value="Save">
+    <div class="btn-container">
+        <button type="submit" class="btn-save"> <i class="fas fa-cart-plus">Salveaza</i></button>
+    </div>
     </fieldset>
 </form>
 
+</div>
 
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 </body>
 </html>

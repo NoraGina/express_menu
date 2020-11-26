@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>LogIn manager</title>
+    <title>Update manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--<link rel ="stylesheet" href="/add-admin.css">-->
@@ -11,7 +10,7 @@
 
     * {box-sizing: border-box;}
 
-h1{
+h1.{
 text-align: center}
 .input-container {
   display: -ms-flexbox; /* IE10 */
@@ -22,7 +21,7 @@ text-align: center}
 
 .icon {
   padding: 10px;
-  background: #1ca340;
+  background: #6ca112;
   color: white;
   min-width: 50px;
   text-align: center;
@@ -35,12 +34,12 @@ text-align: center}
 }
 
 .input-field:focus {
-  border: 2px solid #1ca340;
+  border: 2px solid #6ca112;
 }
 
 /* Set a style for the submit button */
 .btn {
-  background-color: #1ca340;
+  background-color: #6ca112;
   color: white;
   padding: 15px 20px;
   border: none;
@@ -58,35 +57,34 @@ text-align: center}
         }
     </style>
 </head>
-
 <body>
-<h1> LogIn manager</h1>
-<form method="get" th:action="@{/authorization}" th:object="${manager}" >
+<h1> Save manager</h1><!--th:action="'/orderCustomer/update/' + ${orderCustomer.idOrderCustomer}"
+/managers/update/{idManager}-->
+<form method="post" th:action="'/managers/update/' + ${manager.idManager}" th:object="${manager}" >
     <h2>Register Form</h2>
-    <div th:if="${param.error}">
-        <div class="alert alert-danger">
-            Invalid username or password.
-        </div>
+    <div class="input-container">
+        <i class="fa fa-user icon"></i>
+        <input class="input-field" type="text" th:field = "*{userName}"  name="usrnm">
     </div>
-    <div th:if="${param.logout}">
-        <div class="alert alert-info">
-            You have been logged out.
-        </div>
-    </div>
-
 
     <div class="input-container">
         <i class="fa fa-envelope icon"></i>
-        <input class="input-field" type="text" th:name = "email" placeholder="Email" name="email">
+        <input class="input-field" type="text" th:field = "*{email}"  name="email">
     </div>
 
     <div class="input-container">
         <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" th:name = "password" placeholder="Password" name="psw">
+        <input class="input-field" type="text" th:field = "*{password}"  name="psw">
     </div>
 
-    <button type="submit" class="btn">LogIn</button>
+    <div class="input-container">
+        <i class="fa fa-phone-square icon"></i>
+        <input class="input-field" type="text" th:field = "*{phone}"  name="usrnm">
+    </div>
+
+    <button type="submit" class="btn">Edit</button>
 </form>
+
 
 </body>
 </html>

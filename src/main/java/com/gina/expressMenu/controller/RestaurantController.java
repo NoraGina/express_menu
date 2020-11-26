@@ -1,11 +1,10 @@
 package com.gina.expressMenu.controller;
 
 import com.gina.expressMenu.model.Manager;
+import com.gina.expressMenu.model.OrderCustomer;
 import com.gina.expressMenu.model.Restaurant;
-import com.gina.expressMenu.repository.ManagerRepository;
-import com.gina.expressMenu.repository.ProductRepository;
-import com.gina.expressMenu.repository.RestaurantRepository;
-import com.gina.expressMenu.repository.ScheduleRepository;
+import com.gina.expressMenu.model.Status;
+import com.gina.expressMenu.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 public class RestaurantController {
@@ -35,6 +35,9 @@ public class RestaurantController {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+
+    @Autowired
+    private OrderCustomerRepository orderCustomerRepository;
 
     public byte[] convertToBytes(MultipartFile file) throws IOException {
         byte[] byteObjects = new byte[file.getBytes().length];
@@ -78,13 +81,9 @@ public class RestaurantController {
         model.addAttribute("restaurant",restaurant);
       Long id = restaurant.getManager().getIdManager();
         Manager manager = managerRepository.getOne(id);
-        System.out.println("Manager id:" +id);
         model.addAttribute("manager", manager);
         model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
 
-        for(Restaurant restaurant1: restaurantRepository.findAllByManagerId(id)){
-            restaurant1.displayRestaurant();
-        }
         return "manager-operation";
 
     }
@@ -97,12 +96,6 @@ public class RestaurantController {
         return "manager-restaurants";
     }
 
-   /* @GetMapping("/manager-restaurants")
-    public String displayRestaurantsManager( Model model){
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
-        return "manager-restaurants";
-    }*/
 
     @GetMapping("/restaurants-list")
     public String displayRestaurantsList(Model model) {

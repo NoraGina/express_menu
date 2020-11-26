@@ -1,30 +1,25 @@
 package com.gina.expressMenu.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "mangers")
 public class Manager {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_manager")
     private Long idManager;
-
     @Column(name = "user_name", nullable = false)
     private String userName;
-
     @Column(name = "email", nullable = false)
     private String email;
-
     @Column(name = "phone", nullable = false)
     private String phone;
-
     @Column(name = "password", nullable = false)
     private String password;
-
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Restaurant> restaurantSet;
 
@@ -88,6 +83,7 @@ public class Manager {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
 
     @Override

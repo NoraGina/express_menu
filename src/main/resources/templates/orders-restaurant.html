@@ -3,10 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <title>Orders restaurant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,700;1,400;1,500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+   box-sizing: border-box;
+}
+
+body{
+    background-color: #acb3b5;
+    font-family: Roboto;
+}
+
+table{
+    width:100%;
+}
+
+table th{
+    padding-bottom: 5px;
+    text-decoration: underline;
+}
+
+table td{
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+    font-style:italic;
+}
+button{
+    background-color: #1c3542;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 3px 5px;
+}
+a{
+    color:#f7f9fa;
+}
+
+legend{
+font-size:15px;
+font-style:italic;
+}
+
+fieldset{
+padding:10px;
+}
+
+button {
+    transition-duration: 0.4s;
+  }
+
+  button:hover {
+    background-color: #7fa3b5; /* Green */
+  }
+  a:hover{
+      color:#03121a;
+  }
+
+.container{
+    font-size: 14px;
+    padding:10px;
+    margin:auto;
+    width:60%;
+}
+
+.orders-container{
+    border-bottom: 2px solid#4c626e;
+    padding: 25px 10px 40px;
+    width: 100%;
+}
+
+.form-search{
+ font-size: 16px;
+ padding:10px;
+}
+
+
+
+.total-container{
+    padding:10px 25px 10px;;
+    float:right;
+}
+
+
+  .total-container {
+    clear: right;
+  }
+
+  .btn-container{
+        padding: 20px 40px 20px;
+        float:right;
+  }
+
+  .btn-container{
+      clear:right;
+  }
+
+    </style>
 </head>
 <body>
 <div class="container">
+    <h2>All orders</h2>
+    <div class = "form-search">
+        <form  th:action="@{/orders-date/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}" method="get">
+            <fieldset>
+                <legend>Filter by Date</legend>
+            <input type="hidden" th:field="${orderCustomer.restaurant.idRestaurant}" th:name="idRestaurant"/>
+            <input type="date" th:value="${orderCustomer.date}" th:name="date"/>
+                <button type="submit" value="Search"> <i class="fas fa-search"></i>Search </button>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <div class = "form-search">
+        <form  th:action="@{/orders/restaurant/status/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}" method="get">
+            <fieldset>
+                <legend>Filter by Status</legend>
+            <input type="hidden" th:field="${orderCustomer.restaurant.idRestaurant}" th:name="idRestaurant"/>
+            <select th:field="${orderCustomer.status}" th:name="status">
+                <option value="">Select status</option>
+                <option th:each="status: ${T(com.gina.expressMenu.model.Status).values()}"
+                        th:value="${status}" th:text="${status}" ></option>
+            </select>
+                <button type="submit" value="Search"> <i class="fas fa-search"></i>Search </button>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <div class = "form-search">
+        <form th:action="@{/orders-date-status/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}">
+            <fieldset>
+                <legend>Filter by Date and Status</legend>
+            <input type="hidden" th:field="${orderCustomer.restaurant.idRestaurant}" th:name="idRestaurant"/>
+            <input type="date" th:value="${orderCustomer.date}" th:name="date"/>
+            <select th:field="${orderCustomer.status}" th:name="status">
+                <option value="">Select status</option>
+                <option th:each="status: ${T(com.gina.expressMenu.model.Status).values()}"
+                        th:value="${status}" th:text="${status}" ></option>
+            </select>
+                <button type="submit" value="Search"> <i class="fas fa-search"></i>Search </button>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <div class="orders-container" th:each="orderCustomer:${orders}">
+        <a th:href="@{/orders/delete/{idOrderCustomer}(idOrderCustomer=${orderCustomer.idOrderCustomer})}">
+            Delete
+        </a><br>
+        <label>Comanda Nr: </label><span th:text="${orderCustomer.idOrderCustomer}"></span>
+        &nbsp;&nbsp;<span>|</span>&nbsp;
+        <label>Date: </label><span th:text="${orderCustomer.date}"></span>
+        &nbsp;&nbsp;<span>|</span>&nbsp;
+        <label>Time: </label><span th:text="${orderCustomer.time}"></span>
+        &nbsp;&nbsp;<span>|</span>&nbsp;
+        <label>Status: </label><span th:text="${orderCustomer.status}"></span>
+        &nbsp;
+        <br>
+        <br>
 
-</div>
+        <table id="products">
+            <thead>
+            <th>Product name</th>
+            <th>Product price</th>
+            <th>Quantity</th>
+            <th>Value</th>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem:${orderCustomer.orderItemList}">
+                <td th:text="${orderItem.product.productName}"></td>
+                <td th:text="${orderItem.product.price}"></td>
+                <td th:text="${orderItem.quantity}"></td>
+                <td th:text="${#numbers.formatDecimal(orderItem.value, 0, 'COMMA', 2, 'POINT')}" id="order-value"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    <div class="total-container">
+        <label>Total comanada</label>
+        <b><span th:text="${#numbers.formatDecimal(orderCustomer.amount, 0, 'COMMA', 2, 'POINT')}" class="inputs-total" ></span></b>
+    </div><!--total-container-->
+
+    </div><!--orders-container-->
+    <div class="total-container">
+        <label>Total comenzi</label>
+        <b><span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}" class="inputs-total"></span></b>
+    </div><!--total-container-->
+
+    <div class="btn-container">
+     <button><a th:href="@{/manager-operation}"><i class="fas fa-arrow-left">Back</i></a></button>
+    </div>
+
+</div><!-- container-->
+
+
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders_item")
@@ -75,5 +76,28 @@ public class OrderItem {
 
     public double getValue(){
         return product.getPrice() * quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderItem)) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return idOrderItem.equals(orderItem.idOrderItem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrderItem);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "idOrderItem=" + idOrderItem +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                ", orderCustomer=" + orderCustomer +
+                '}';
     }
 }

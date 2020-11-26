@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers list</title>
+</head>
+<body>
+<div class="table-wrapper">
+    <table class="fl-table">
+
+        <thead>
+        <tr>
+            <th>Customer id</th>
+            <th>Customer name</th>
+            <th>Customer Phone</th>
+            <th>Customer Email</th>
+            <th>Customer address</th>
+            <th>Password</th>
+            <th>Delete</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer:${customers}">
+            <td th:text="${customer.idCustomer}"></td>
+            <td th:text="${customer.customerName}"></td>
+            <td th:text="${customer.phone}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.address}"></td>
+            <td th:text="${customer.password}"></td>
+            <td>
+                <a th:href="@{/customers/delete/{idCustomer}(idCustomer=${customer.idCustomer})}">
+                    Delete
+                </a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <p><a th:href="@{/displayAdminHome}">Home</a></p>
+</div>
+</body>
+</html>

@@ -35,12 +35,9 @@ public class ProductController {
         final Optional<Restaurant> optional = restaurantRepository.findById(idRestaurant);
         if (optional.isPresent()) {
             final Restaurant restaurant = optional.get();
-            System.out.println("Restaurant Id: " + restaurant.getIdRestaurant());
             model.addAttribute("restaurant", restaurant);
             product.setRestaurant(restaurant);
             model.addAttribute("product", product);
-            System.out.println(product.getRestaurant().getRestaurantName());
-            System.out.println(product.getRestaurant().getIdRestaurant());
 
         } else {
             new IllegalArgumentException("Invalid restaurant Id" + idRestaurant);
@@ -51,8 +48,7 @@ public class ProductController {
 
     @PostMapping("/products/add")
     public String addProduct(@Valid @ModelAttribute("product") Product product, Model model,
-                             BindingResult result,
-                             @RequestParam("imageFile") MultipartFile file){
+                             BindingResult result, @RequestParam("imageFile") MultipartFile file){
         if (result.hasErrors()) {
             return "add-product";
         }

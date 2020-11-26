@@ -18,6 +18,10 @@ body{
 
 }
 fieldset{
+     border:2px solid #DDEFBB;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
     padding: 10px;
 }
 legend{
@@ -25,6 +29,7 @@ legend{
     font-weight: 700;
 }
 table{
+background-color:inherit;
     font-size: 14px;
     width: 100%;
 }
@@ -70,6 +75,14 @@ button:active {
    -webkit-box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
    -moz-box-shadow: inset 0 5px 10px rgb(84, 139, 101), 0 1px 1px green;
 }
+
+.btn-home{
+    background: lightgray;
+    box-shadow: inset 0 5px 10px rgb(99, 133, 160), 0 1px 1px grey;
+    -o-box-shadow: inset 0 5px 10px rgb(99, 133, 160), 0 1px 1px grey;
+    -webkit-box-shadow: inset 0 5px 10px rgb(99, 133, 160), 0 1px 1px grey;
+    -moz-box-shadow: inset 0 5px 10px rgb(99, 133, 160), 0 1px 1px grey;
+}
 .container{
     font-family: Roboto;
     margin: 2% auto;
@@ -109,31 +122,49 @@ button:active {
     padding:5px 48px 5px 5px;
 }
 #data{
-    padding:5px 56px 5px 5px;
+    padding:5px 48px 5px 5px;
+}
+
+#time{
+    padding:5px 10px 5px 5px;
 }
 
 .inputs{
+ border-style: hidden;
+background-color:inherit;
     font-size: 16px;
     margin-bottom: 4px;
     padding: 2px;
     width:70%;
 }
 .inputs-id{
+background-color:inherit;
+border-style: hidden;
     padding: 2px;
     width: 10%;
 }
 .inputs-total{
+background-color:inherit;
     padding: 2px;
     font-size: 16px;
     font-weight: 700;
     text-align: right;
 
 }
+.data-txt{
+    background-color:inherit;
+    border-style: hidden;
+    font-size: 16px;
+    padding: 2px;
+    width: 28%;
+    }
 .col-total{
     float: right;
     padding:30px 5px 5px 5px;
 }
 #txt-total{
+    background-color:inherit;
+    border-style: hidden;
     text-align: right;
 }
 .col-sub{
@@ -154,7 +185,9 @@ button:active {
                 <label class="lbl" id="status">Status</label>
                 <input th:field="${orderCustomer.status}"  type="text" class="inputs"/><br>
                 <label class="lbl" id="data">Data:</label>
-                <input th:field="${orderCustomer.date}" type="text" class="inputs"/>
+                <input th:field="${orderCustomer.date}" type="text" class="data-txt" />
+                <label class="lbl" id="time">Ora:</label>
+                <input th:field="${orderCustomer.time}" type="text" class="data-txt"/>
             </fieldset>
         </div><!--end class order-->
         <fieldset>
@@ -206,25 +239,24 @@ button:active {
             </div>
         </fieldset>
         <div class="col-sub">
-
+            <button  class="btn-home">
+                <a th:href="@{/displayCustomerOrder}"> <i class="fas fa-house-user">Inapoi</i></a>
+            </button>
+            <button type="submit" class="btn-del">
             <a th:href="@{/orderCustomer/delete/{idOrderCustomer}(idOrderCustomer=${orderCustomer.idOrderCustomer})}">
-
-                    <button type="submit" class="btn-del"> <i class="far fa-trash-alt">Anuleaza</i></button>
-
+                <i class="far fa-trash-alt">Anuleaza</i>
             </a>
-
+            </button>
+            <button type="submit" class="btn-edit">
             <a th:href="@{/displayEditOrder/{idOrderCustomer}(idOrderCustomer=${orderCustomer.idOrderCustomer})}">
-
-                    <button type="submit" class="btn-edit"><i class="fas fa-pen">Editeaza </i></button>
-
+                <i class="fas fa-pen">Editeaza </i>
             </a>
-
+            </button>
+            <button type="submit" id="btn-sub" onclick="myFunction()">
             <a th:href="@{/displayCustomerHome}">
-
-                    <button type="submit" id="btn-sub" onclick="myFunction()"> <i class="fas fa-cart-arrow-down">Salveaza</i></button>
-
+                <i class="fas fa-cart-arrow-down">Salveaza</i>
             </a>
-
+            </button>
         </div>
     </fieldset>
 </div><!--end class container-->

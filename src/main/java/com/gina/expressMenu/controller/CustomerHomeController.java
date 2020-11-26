@@ -41,22 +41,19 @@ public class CustomerHomeController {
        for(Restaurant restaurant: restaurants){
 
            Schedule schedule = restaurant.getSchedule();
-          /* if(schedule == null){
-               throw new RuntimeException();
-           }*/
-          try{
-              if (schedule != null){
-                  model.addAttribute("schedule", schedule);
-              }
-          }catch(Exception e){
-              e.printStackTrace();
-          }
-
-        }
+               try{
+                   if (schedule != null){
+                       model.addAttribute("schedule", schedule);
+                   }
+               }catch(Exception e){
+                   e.printStackTrace();
+               }
+           }
 
 
         return "customer-home";
-    }
+
+        }
 
     @GetMapping("/displayCustomerOrder")
     public String displayCustomerOrder(Model model){
@@ -72,11 +69,7 @@ public class CustomerHomeController {
     return "view-products";
   }
 
-    public  int getDayOfWeek(LocalDate date) {
 
-        DayOfWeek day = date.getDayOfWeek();
-        return day.getValue();
-    }
 
     @GetMapping("/displaySignUpCustomer")
     public String displaySignUpCustomer(Model model){
@@ -92,19 +85,25 @@ public class CustomerHomeController {
         if (result.hasErrors()) {
             return "signUp-customer";
         }
-        customerRepository.save(customer);
-        httpSession.setAttribute("customer", customer);
-        model.addAttribute("customer", customer);
-        model.addAttribute("idCustomer", customer.getIdCustomer());
-        System.out.println("Customer id: "+ customer.getIdCustomer());
-        model.addAttribute("userName", customer.getCustomerName());
-        model.addAttribute("restaurants", restaurantRepository.findAll());
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("timestamp", Instant.now());
-        model.addAttribute("status", Status.AFFECTED );
-        ra.addFlashAttribute("message", "The customer has been saved successfully.");
+        if(customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()) == 0l){
+            customerRepository.save(customer);
+            httpSession.setAttribute("customer", customer);
+            model.addAttribute("customer", customer);
+            model.addAttribute("idCustomer", customer.getIdCustomer());
+            model.addAttribute("userName", customer.getCustomerName());
+            model.addAttribute("restaurants", restaurantRepository.findAll());
+            model.addAttribute("localDate", LocalDate.now());
+            model.addAttribute("timestamp", Instant.now());
+            model.addAttribute("status", Status.AFFECTED );
+            ra.addFlashAttribute("message", "The customer has been saved successfully.");
 
-        return "customer-order";
+            return "customer-order";
+
+        }
+        else{
+            return "logIn-customer";
+        }
+
     }
 
     @GetMapping("/displayLogInCustomer")
