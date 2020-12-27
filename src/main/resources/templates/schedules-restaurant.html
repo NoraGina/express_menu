@@ -23,6 +23,12 @@
     padding: 30px 0;
     }
 
+    button{
+        border:none;
+        padding:5px;
+        font-size:14px;
+    }
+
     /* Table Styles */
 
     .table-wrapper{
@@ -68,11 +74,39 @@
     background: #F8F8F8;
     }
 
-    button{
-    border:none;
-    padding:5px;
-    font-size:14px;
-}
+
+
+      .btn-row{
+        padding-top: 10px;
+        padding-bottom: 30px;
+
+    }
+
+    .btn-col{
+        float:right;
+        text-align: center;
+        width: 10%;
+    }
+
+    #btn-sub{
+      background-color: #6a83f3;
+      color: #0a0955;
+    }
+
+    #btn-back{
+      background-color: #646c73;
+      color:#808485;
+    }
+
+    #btn-home{
+        background-color: #0881b9;
+        color:#afb6b8;
+      }
+
+      #btn-home:hover,  #btn-back:hover, #btn-sub:hover{
+        background-color: #08b124;
+        color: #d6d7ec;
+    }
     /* Responsive */
 
     @media (max-width: 767px) {
@@ -141,6 +175,7 @@
     </style>
 </head>
 <body>
+
 <div class="header">
     <h1>Orar restaurant </h1>
 </div>
@@ -177,9 +212,34 @@
         </tr>
         </tbody>
     </table>
-    <p><a th:href="@{/manager-operation}" ><button id="back-btn" ><i class="fas fa-house-user" aria-hidden="true"></i>Back</button></a></p>
+    <div class="btn-row">
+        <div class="btn-col">
+            <button  id="btn-back">
+                <a th:href="@{/manager-operation}">
+                    <i class="fas fa-arrow-left">Back</i>
+                </a>
+            </button><!--btn-back-->
+        </div><!-- End btn-col-->
+        <div class="btn-col">
+            <button  id="btn-home">
+                <a th:href="@{/displayAdminHome}">
+                    <i class="fas fa-home">Home</i>
+                </a>
+            </button><!--btn-home-->
+        </div><!-- End btn-col-->
+        <div class="btn-col">
+            <input type="hidden" th:field="*{restaurant.idRestaurant}"/>
+            <button  id="btn-sub">
+                <a th:href="@{/displayAddFormSchedule/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                    <i class="fas fa-calendar-plus">Add schedule</i>
+                </a>
+            </button><!--btn add-->
+        </div><!-- End btn-col-->
+    </div><!-- End btn row-->
+
 
 </div>
+
 <script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 </body>
 </html>

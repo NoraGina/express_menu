@@ -10,8 +10,9 @@
 
     * {box-sizing: border-box;}
 
-h1.{
-text-align: center}
+h1{
+text-align: center
+}
 .input-container {
   display: -ms-flexbox; /* IE10 */
   display: flex;
@@ -58,8 +59,7 @@ text-align: center}
     </style>
 </head>
 <body>
-<h1> Save manager</h1><!--th:action="'/orderCustomer/update/' + ${orderCustomer.idOrderCustomer}"
-/managers/update/{idManager}-->
+<h1> Update manager</h1>
 <form method="post" th:action="'/managers/update/' + ${manager.idManager}" th:object="${manager}" >
     <h2>Register Form</h2>
     <div class="input-container">

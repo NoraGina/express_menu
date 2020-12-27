@@ -12,9 +12,10 @@
     padding: 0;
 }
 body{
-background: #74ebd5;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: #649173;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #DBD5A4, #649173);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #DBD5A4, #649173); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 font-family:Oswald;
 }
 
@@ -69,22 +70,28 @@ padding-bottom:30px;
 
 <table class="row">
     <tbody>
-    <tr th:each="product:${products}">
-        <td th:text="${product.productName}"></td>
-        <td><img th:src="*{'data:image/jpg;base64,'+ product.imageAsString}"  alt="Image" /></td>
-        <td th:text="${product.description}"></td>
-        <td th:text="${product.price}"></td>
-    </tr>
+        <tr th:each="product:${products}">
+            <td th:text="${product.restaurant.restaurantName}"></td>
+            <td th:text="${product.productName}"></td>
+            <td><img th:src="*{'data:image/jpg;base64,'+ product.imageAsString}"  alt="Image" /></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.price}" ></td>
+        </tr>
 
     </tbody>
 </table>
+
     <div class="col-btn">
-        <a th:href="@{/displayCustomerOrder}">
-            <button id="order-btn" onclick="myFunction()"> <i class="fas fa-shopping-cart">Place order</i></button>
-        </a>
-
-    <a th:href="@{/displayCustomerHome}" ><button id="back-btn" ><i class="fas fa-arrow-left" aria-hidden="true"></i>Back</button></a>
-
+        <button id="order-btn" onclick="myFunction()">
+            <a th:href="@{/displayCustomerHome}">
+                 <i class="fas fa-shopping-cart">Place order</i>
+            </a>
+        </button>
+        <button id="back-btn" >
+            <a th:href="@{/displayCustomerHome}" >
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>Back
+            </a>
+        </button>
     </div>
 </div>
 <script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>

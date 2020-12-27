@@ -1,12 +1,11 @@
 package com.gina.expressMenu.controller;
 
-import com.gina.expressMenu.model.Manager;
-import com.gina.expressMenu.model.OrderCustomer;
-import com.gina.expressMenu.model.Restaurant;
-import com.gina.expressMenu.model.Status;
+import com.gina.expressMenu.model.*;
 import com.gina.expressMenu.repository.*;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +37,9 @@ public class RestaurantController {
 
     @Autowired
     private OrderCustomerRepository orderCustomerRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     public byte[] convertToBytes(MultipartFile file) throws IOException {
         byte[] byteObjects = new byte[file.getBytes().length];
@@ -137,17 +139,47 @@ public class RestaurantController {
         }catch(Exception e){
             e.printStackTrace();
         }
-
-        return "manager-operation";
+        String idManager = manager.getIdManager().toString();
+        List<Restaurant>restaurantList = restaurantRepository.findAllByManagerId(manager.getIdManager());
+        model.addAttribute("restaurants", restaurantList);
+        //return "manager-operation";
+        return "redirect:/manager-restaurants/"+idManager;
     }
 
+
+    @Transactional
     @GetMapping("/restaurants/delete/{idRestaurant}")
     public String deleteRestaurant(@PathVariable("idRestaurant") Long idRestaurant, Model model) {
+        List<Product>productList = productRepository.findAllByRestaurantId(idRestaurant);
+      ;
+        for(Product product:productList){
+           List<OrderItem> orderItemList = orderItemRepository.findAllByIdProduct(product.getIdProduct());
+            for(OrderItem orderItem:orderItemList){
+                orderItemRepository.deleteById(orderItem.getIdOrderItem());
+
+            }
+
+            productRepository.deleteById(product.getIdProduct());
+
+        }
+
+        for(Schedule schedule:scheduleRepository.findAllByRestaurantId(idRestaurant)){
+            scheduleRepository.deleteById(schedule.getIdSchedule());
+        }
+
+        for(OrderCustomer orderCustomer:orderCustomerRepository.findAllByIdRestaurant(idRestaurant)){
+            orderCustomerRepository.deleteById(orderCustomer.getIdOrderCustomer());
+        }
+
         restaurantRepository.deleteById(idRestaurant);
+
         Manager manager = (Manager) httpSession.getAttribute("manager");
         model.addAttribute("manager", manager);
+        String idManager = manager.getIdManager().toString();
+        List<Restaurant>restaurantList = restaurantRepository.findAllByManagerId(manager.getIdManager());
+        model.addAttribute("restaurants", restaurantList);
 
-        return "manager-operation";
+        return "redirect:/manager-restaurants/"+idManager;
     }
 
 }

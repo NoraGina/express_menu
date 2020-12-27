@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,13 +31,13 @@ public class OrderCustomer {
     @NotFound(action = NotFoundAction.IGNORE)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @NotFound(action = NotFoundAction.IGNORE)
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "orderCustomer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OrderItem> orderItemList;
+    private List<OrderItem> orderItemList ;
 
 
     @Enumerated(EnumType.STRING)
@@ -106,12 +107,29 @@ public class OrderCustomer {
     }
 
 
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public int getQuantityForEachOrderItem(){
+        int quantity = 0;
+        for(OrderItem orderItem:this.orderItemList){
+
+           quantity= orderItem.getQuantity();
+        }
+        return quantity;
+    }
+
+    public boolean quantityZero(){
+        if(getQuantityForEachOrderItem() == 0){
+            return false;
+        }
+        return true;
     }
 
     public double getTotal(){
@@ -157,7 +175,15 @@ public class OrderCustomer {
                 ", time=" + time +
                 ", customer=" + customer +
                 ", restaurant=" + restaurant +
-                ", status='" + status + '\'' +
+                ", orderItemList=" + orderItemList +
+                ", status=" + status +
                 '}';
+    }
+
+    public void displayOrderCustomer(){
+        System.out.println("Id order Customer: "+ idOrderCustomer);
+        System.out.println("Date: "+ date);
+        System.out.println("Customer: "+ customer.getCustomerName());
+        System.out.println("Restaurant: "+ restaurant.getRestaurantName());
     }
 }

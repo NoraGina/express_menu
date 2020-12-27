@@ -2,7 +2,6 @@ package com.gina.expressMenu.controller;
 
 import com.gina.expressMenu.model.*;
 import com.gina.expressMenu.repository.*;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +30,29 @@ public class ManagerController {
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+    @Autowired
     private HttpSession httpSession;
+
+    public ManagerController(ManagerRepository managerRepository,
+                             RestaurantRepository restaurantRepository,
+                             OrderCustomerRepository orderCustomerRepository,
+                             OrderItemRepository orderItemRepository,
+                             CustomerRepository customerRepository,
+                             ProductRepository productRepository, ScheduleRepository scheduleRepository,
+                             HttpSession httpSession) {
+        this.managerRepository = managerRepository;
+        this.restaurantRepository = restaurantRepository;
+        this.orderCustomerRepository = orderCustomerRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.customerRepository = customerRepository;
+        this.productRepository = productRepository;
+        this.scheduleRepository = scheduleRepository;
+        this.httpSession = httpSession;
+    }
+
     @GetMapping("/displayAdminHome")
     public String displayAdminHome(Model model){
         return "admin-home";
@@ -46,11 +68,11 @@ public class ManagerController {
         if (result.hasErrors()) {
             return "signUp-admin";
         }
-if(manager == null){
-    managerRepository.save(manager);
-    httpSession.setAttribute("manager", manager);
-    model.addAttribute("manager", manager);
-    model.addAttribute("idManger", manager.getIdManager());
+    if(managerRepository.countByEmailAndPassword(manager.getEmail(), manager.getPassword())==0l){
+         managerRepository.save(manager);
+        httpSession.setAttribute("manager", manager);
+        model.addAttribute("manager", manager);
+        model.addAttribute("idManger", manager.getIdManager());
 
     return "manager-operation";
 }
@@ -72,13 +94,27 @@ if(manager == null){
         Manager manager = managerRepository.findByEmailAndPassword(email, password);
 
         if(manager != null){
-            httpSession.setAttribute("manager", manager);
-            model.addAttribute("manager", manager);
-            model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
-            return "manager-operation";
+            if(manager.getEmail() != null || manager.getPassword() != null){
+                httpSession.setAttribute("manager", manager);
+                model.addAttribute("manager", manager);
+                model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
+                return "manager-operation";
+            }
+            if(manager.getEmail() == null || manager.getPassword() == null){
+                return "logIn-admin";
+            }
         }
         model.addAttribute("manager", new Manager());
         return "signUp-admin";
+    }
+
+    @GetMapping("manager/logout")
+    public String logOut(){
+        Manager manager = (Manager) httpSession.getAttribute("manager");
+        httpSession.removeAttribute("manager");
+        httpSession.invalidate();
+
+        return "redirect:/index";
     }
 
     @GetMapping("manager-operation")
@@ -113,14 +149,13 @@ model.addAttribute("customers", customerRepository.findAll());
     }
 
     @GetMapping("/orders/delete/{idOrderCustomer}")
-    public String deleteOrders(@PathVariable("idOrderCustomer") Long idOrderCustomer, Model model){
+    public String deleteOrders(@PathVariable("idOrderCustomer") Long idOrderCustomer,
+                               Model model){
+        Restaurant restaurant = orderCustomerRepository.findRestaurantByIdOrderCustomer(idOrderCustomer);
+        String idRestaurant = restaurant.getIdRestaurant().toString();
         orderCustomerRepository.deleteById(idOrderCustomer);
-        for(OrderCustomer orderCustomer:orderCustomerRepository.findAll()){
-            List<OrderCustomer>orderCustomers = orderCustomerRepository.findAllByIdRestaurant(orderCustomer.getRestaurant().getIdRestaurant());
-            model.addAttribute("orderCustomers", orderCustomers);
-        }
 
-        return "orders-restaurant";
+        return "redirect:/orders-restaurant/"+idRestaurant;
     }
 
 
@@ -146,17 +181,45 @@ model.addAttribute("customers", customerRepository.findAll());
             return "update-manager";
         }
         managerRepository.save(manager);
-
+        httpSession.setAttribute("manager", manager);
         model.addAttribute("manager", manager);
-        model.addAttribute("managers",managerRepository.findAll());
 
-        return "redirect:/managers-list/" ;
+        model.addAttribute("restaurants", restaurantRepository.findAllByManagerId(manager.getIdManager()));
+
+        return "manager-operation";
     }
 
     @GetMapping("/managers/delete/{idManager}")
-    public String deleteRestaurant(@PathVariable("idManager") Long idManager) {
+    public String deleteRestaurant(@PathVariable("idManager") Long idManager, Model model) {
+        model.addAttribute("managers", managerRepository.findAll());
+        Manager manager = managerRepository.findById(idManager).get();
+
+        manager.displayManager();
+        for(Restaurant restaurant: restaurantRepository.findAllByManagerId(idManager)){
+
+            restaurant.displayRestaurant();
+            for(Product product :productRepository.findAllByRestaurantId(restaurant.getIdRestaurant())) {
+                product.displayProduct();
+                for(OrderItem orderItem:orderItemRepository.findAllByIdProduct(product.getIdProduct())){
+                    orderItemRepository.deleteById(orderItem.getIdOrderItem());
+                }
+
+                productRepository.deleteById(product.getIdProduct());
+            }
+            for(Schedule schedule:scheduleRepository.findAllByRestaurantId(restaurant.getIdRestaurant())){
+                schedule.displaySchedule();
+                scheduleRepository.deleteById(schedule.getIdSchedule());
+                schedule.displaySchedule();
+            }
+            for(OrderCustomer orderCustomer :orderCustomerRepository.findAllByIdRestaurant(restaurant.getIdRestaurant())){
+                orderCustomer.displayOrderCustomer();
+                orderCustomerRepository.deleteById(orderCustomer.getIdOrderCustomer());
+                orderCustomer.displayOrderCustomer();
+            }
+            restaurantRepository.deleteById(restaurant.getIdRestaurant());
+        }
         managerRepository.deleteById(idManager);
-        return "managers-list";
+        return "redirect:/index";
     }
 
     @GetMapping("/orders-restaurant/{idRestaurant}")
@@ -165,12 +228,12 @@ model.addAttribute("customers", customerRepository.findAll());
        double total = 0;
        for(OrderCustomer orderCustomer: orderCustomers){
            total += orderCustomer.getTotal();
-           Long idCustomer = orderCustomer.getCustomer().getIdCustomer();
+
            model.addAttribute("orderCustomer", orderCustomer);
-           //model.addAttribute("idCustomer", idCustomer);
-           //model.addAttribute("customer", orderCustomer.getCustomer());
+           model.addAttribute("restaurant", orderCustomer.getRestaurant());
        }
-        model.addAttribute("orders", orderCustomers);
+       List<OrderCustomer>orders = new ArrayList<>(orderCustomers);
+        model.addAttribute("orders", orders);
         model.addAttribute("total", total);
         return "orders-restaurant";
     }
@@ -217,8 +280,6 @@ model.addAttribute("customers", customerRepository.findAll());
                                                  @RequestParam(value = "date", required = false) LocalDate date,
                                                  Model model){
 
-
-
         List<OrderCustomer>orderCustomers =
                 orderCustomerRepository.findAllByIdRestaurantDateAndStatus(idRestaurant, date, status);
         double total = 0;
@@ -238,6 +299,7 @@ model.addAttribute("customers", customerRepository.findAll());
         if (optionalOrderCustomer.isPresent()){
             final OrderCustomer orderCustomer = optionalOrderCustomer.get();
             model.addAttribute("orderCustomer", orderCustomer);
+            model.addAttribute("restaurant", orderCustomerRepository.findRestaurantByIdOrderCustomer(idOrderCustomer));
         }  else {
         new IllegalArgumentException("Invalid order Id:" + idOrderCustomer);
     }
@@ -249,15 +311,16 @@ model.addAttribute("customers", customerRepository.findAll());
                               @Valid @ModelAttribute("orderCustomer")  OrderCustomer orderCustomer,
                               BindingResult result, Model model) {
 
-
         model.addAttribute("orderCustomer", orderCustomer);
         if (result.hasErrors()) {
             return "update-order-manager";
         }
         orderCustomerRepository.save(orderCustomer);
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("manager", manager);
+         Restaurant restaurant = orderCustomerRepository.findRestaurantByIdOrderCustomer(idOrderCustomer);
+        String idRestaurant = restaurant.getIdRestaurant().toString();
 
-         return "manager-operation";
+        model.addAttribute("orders", orderCustomerRepository.findAllByIdRestaurant(restaurant.getIdRestaurant()));
+
+        return "redirect:/orders-restaurant/"+idRestaurant;
     }
 }

@@ -15,7 +15,10 @@ html{
 }
 
 body{
-    background-color: #949fb5;
+    background: #E0EAFC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -162,7 +165,7 @@ input{
 
             <div class="form-group">
                 <label>Phone</label>
-                <input  type="text" name="restaurantPhone" th:field="*{restaurantPhone}" placeholder="Enter restaurant phone"/>
+                <input  type="text" name="restaurantPhone" th:field="*{restaurantPhone}" placeholder="Enter restaurant phone" required/>
                 <span th:if="${#fields.hasErrors('restaurantPhone')}" th:errors="*{restaurantPhone}" class="text-danger"></span>
             </div>
 
@@ -174,12 +177,12 @@ input{
 
             <div class="form-group">
                 <label>Specific</label>
-                <input  type="text" name="description" th:field="*{description}" placeholder="Enter restaurant specific"/>
+                <input  type="text" name="description" th:field="*{description}" placeholder="Enter restaurant specific" required/>
             </div>
 
             <div class = "form-group">
                 <label>Image</label>
-                <input  type="file"  th:name="imageFile" />
+                <input  type="file"  th:name="imageFile" required/>
                 <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
             </div>
 

@@ -1,12 +1,12 @@
 package com.gina.expressMenu.controller;
 
-import com.gina.expressMenu.model.Manager;
-import com.gina.expressMenu.model.Product;
-import com.gina.expressMenu.model.Restaurant;
+import com.gina.expressMenu.model.*;
+import com.gina.expressMenu.repository.OrderItemRepository;
 import com.gina.expressMenu.repository.ProductRepository;
 import com.gina.expressMenu.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +27,9 @@ public class ProductController {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     @Autowired
     HttpSession httpSession;
@@ -67,12 +72,15 @@ public class ProductController {
                 final Restaurant restaurant = optional.get();
 
                 newProduct.setRestaurant(restaurant);
-                model.addAttribute("restaurant", restaurant);
+
                 model.addAttribute("product", newProduct);
+
             }
         }
         Manager manager = (Manager) httpSession.getAttribute("manager");
         model.addAttribute("manager", manager);
+        model.addAttribute("products", productRepository.findAllByRestaurantId(product.getRestaurant().getIdRestaurant()));
+        model.addAttribute("restaurant", product.getRestaurant());
         return "add-product";
     }
 
@@ -94,8 +102,8 @@ public class ProductController {
         if (optionalProduct.isPresent()) {
             final Product product = optionalProduct.get();
             model.addAttribute("product", product);
-            Manager manager = (Manager) httpSession.getAttribute("manager");
-            model.addAttribute("manager", manager);
+
+            model.addAttribute("restaurant", product.getRestaurant());
         } else {
             new IllegalArgumentException("Invalid restaurant Id:" + idProduct);
         }
@@ -116,29 +124,52 @@ public class ProductController {
             productRepository.save(product);
             Manager manager = (Manager) httpSession.getAttribute("manager");
             model.addAttribute("manager", manager);
+
         }catch(Exception e){
             e.printStackTrace();
         }
+        Restaurant restaurant = product.getRestaurant();
+        String idRestaurant = restaurant.getIdRestaurant().toString();
 
-        return "manager-operation";
+
+        model.addAttribute("products", productRepository.findAllByRestaurantId(restaurant.getIdRestaurant()));
+        return "redirect:/products-restaurant/"+idRestaurant;
     }
 
-
-
+    @Transactional
     @GetMapping("/products/delete/{idProduct}")
     public String deleteProduct(@PathVariable("idProduct") Long idProduct, Model model) {
+
+       for(OrderItem orderItem:orderItemRepository.findAllByIdProduct(idProduct)){
+            orderItemRepository.deleteById(orderItem.getIdOrderItem());
+
+        }
+        Product product = productRepository.findById(idProduct).get();
         productRepository.deleteById(idProduct);
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("manager", manager);
-        return "manager-operation";
+        Restaurant restaurant = product.getRestaurant();
+        String idRestaurant = restaurant.getIdRestaurant().toString();
+
+        model.addAttribute("products", productRepository.findAllByRestaurantId(restaurant.getIdRestaurant()));
+
+        return "redirect:/products-restaurant/"+idRestaurant;
     }
 
     @GetMapping("/products-restaurant/{idRestaurant}")
-    public String getProductsByRestaurant(
-            @PathVariable("idRestaurant") Long idRestaurant, Model model){
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("manager", manager);
+    public String getProductsByRestaurant(@PathVariable("idRestaurant") Long idRestaurant, Model model){
+
         model.addAttribute("products", productRepository.findAllByRestaurantId(idRestaurant));
+       Product product = new Product();
+        final Optional<Restaurant> optional = restaurantRepository.findById(idRestaurant);
+        if (optional.isPresent()) {
+            final Restaurant restaurant = optional.get();
+            model.addAttribute("restaurant", restaurant);
+            product.setRestaurant(restaurant);
+            model.addAttribute("schedule", product);
+
+        } else {
+            new IllegalArgumentException("Invalid restaurant Id" + idRestaurant);
+        }
+
         return "products-restaurant";
     }
 

@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Add products</title>
-   <style>
-       *{
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+*{
     margin: 0;
     padding: 0;
      }
@@ -14,145 +16,236 @@ html{
 }
 body{
     background-color: #949fb5;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-label{
-    padding: 3px;;
-}
-
-input{
-    padding: 3px;
-    float:right;
-    width:60%;
+    font-family: Poppins;
 }
 
 
 .container{
-    padding:20px;
-    width:40%;
+    border-style: ridge;
+    border-radius: 8px;
+    padding:20px 20px 40px;
+    width:50%;
     margin:auto;
 }
 
 .center-block{
-    font-weight: bold;
+    font-style: italic;
     color: #27324f;
     font-size:2em;
 }
 
 
-
-.form-group{
-    padding-bottom:12px;
+button{
+    background-color: #7997ad;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 4px;
 }
+
+#btn-home{
+
+    color: #1e2061;
+}
+
+#btn-home:hover,  #btn-back:hover, #btn-list:hover, #btn-sub:hover{
+    background-color: #344169;
+    color: #d6d7ec;
+}
+
+#btn-back{
+     color: #01220b;
+}
+
+#btn-list{
+
+    color: #293d3d;
+}
+
+#btn-sub{
+    color: #023e5c;
+    float: right;
+    margin-bottom: 5px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+    float: left;
+    padding-left: 10px;
+    margin-top: 6px;
+    width: 25%;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+    float: left;
+    padding-right: 10px;
+    margin-top: 6px;
+    width: 71%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.lbl{
+    padding: 5px 5px 5px 0;
+    display: inline-block;
+}
+
+input[type=text], input[type=file]{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-weight: 500;
+}
+
+.row-sub{
+    padding-right: 20px;
+}
+
+.row-sub:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/*Floating columns for butons*/
 
 .btn{
-    border: none;
-    font-weight: bold;
-    padding: 4px;
-    width:58%;
-    color: #11214a;
-    background-color: #434b5e;
-    border-radius: 3px;
+    padding-left: 270px;
+    padding-top: 20px;
+}
+.btn-row{
+    float:right;
+    margin-bottom: 10px;
+    width: 25%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
-.btn:hover{
-    background-color: #0d1f4f;
-    color: aliceblue;
-}
-
-.btn:focus{
-    outline:none;
-}
-
-
-
-@media only screen and (min-width: 576px) {
+@media only screen and (max-width: 600px) {
     html{
         font-size :12px;
     }
-    .container{
-        width: 70%;
-    }
-    .btn{
-        width: 62%;
-    }
-}
-
-@media only screen and (min-width: 768px) {
-    html{
-        font-size :12px;
+    .col-25, .col-75, .btn-row {
+        float: none;
+        width: 100%;
+        margin-top: 0;
     }
     .container{
-        width: 70%;
+        padding: 2px;
+        width: 100%;
     }
-    .btn{
-        width: 63%;
-    }
+
 }
-
-@media only screen and (min-width: 992px) {
-    html{
-        font-size :14px;
-    }
-
-    .container{
-        width: 50%;
-    }
-    .btn{
-        width: 61%;
-    }
-}
-
-@media only screen and (min-width: 1200px) {
-    html{
-        font-size :16px;
-    }
-
-    .container{
-        width: 50%;
-    }
-    .btn{
-        width: 62%;
-    }
-}
-   </style>
+    </style>
 </head>
 
 <body>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;
 <div class="container">
-    <h2 align="center">Save Product</h2>
 
-    <form class="form-group"  method="post"  th:action="@{/products/add}"  th:object="${product}" enctype="multipart/form-data">
+    <form method="post"  th:action="@{/products/add}"  th:object="${product}" enctype="multipart/form-data">
         <fieldset>
-            <legend class="center-block">New product information<span style="font-size:small">is a required field</span></legend>
-            <label  class="lbl">Restaurant</label><br>
+            <legend class="center-block">Informatii produs<span>  </span><span style="font-size: 14px; color:#e60000">toate campurile sunt obligatorii</span></legend>
+            <div class="row">
+                <div class="col-25">
+                    <label  class="lbl">Restaurant</label>
+                </div><!--div col-25-->
+                <div class="col-75">
+                    <input type="hidden" th:field="*{restaurant.idRestaurant}" />
+                    <input type="text" disabled th:value="*{restaurant.restaurantName}"/>
+                </div><!--div col-75-->
+            </div><!--div row-->
 
-            <input type="hidden" th:field="*{restaurant.idRestaurant}"/>
-            <input type="text" disabled th:value="*{restaurant.restaurantName}"/><br>
-            <label for="productName" class="lbl">Product name</label><br>
-            <input class="txt" th:field="*{productName}" type="text" id="productName" required name="productName"/><br>
-            <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="text-danger"></span>
-            <label for="image" class="lbl">Product image</label>
-            <input class="txt" type="file"  th:name="imageFile" id ="image" name="image"/><br><br>
+            <div class="row">
+                <div class="col-25">
+                    <label for="productName" class="lbl">Denumire produs</label>
+                </div><!--div col-25-->
+                <div class="col-75">
+                    <input  th:field="*{productName}" type="text" id="productName" required name="productName"/>
+                    <span th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="text-danger"></span>
+                </div><!--div col-75-->
+            </div><!--div row-->
 
-            <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
 
-            <label for="description" class="lbl">Description</label><br>
-            <input class="txt" th:field="*{description}" type="text" id="description" name="description" required/><br>
-            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
-            <label for="price" class="lbl">Price</label><br>
-            <input class="txt" th:field="*{price}" type="text" id="price" name="price" required/><br><br><br>
-            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
-            <input class="btn" type="submit" th:value="Save">
+            <div class="row">
+                <div class="col-25">
+                    <label for="image" class="lbl">Imagine produs</label>
+                </div><!--div col-25-->
+                <div class="col-75">
+                    <input  type="file"  th:name="imageFile" id ="image" name="image" required/>
+                    <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
+                </div><!--div col-75-->
+            </div><!--div row-->
 
+            <div class="row">
+                <div class="col-25">
+                    <label for="description" class="lbl">Descriere</label>
+                </div><!--div col-25-->
+                <div class="col-75">
+                    <input  th:field="*{description}" type="text" id="description" required/>
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                </div><!--div col-75-->
+            </div><!--div row-->
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="price" class="lbl">Pret produs</label>
+                </div><!--div col-25-->
+                <div class="col-75">
+                    <input  th:field="*{price}" type="text" id="price" name="price" required/>
+                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+                </div><!--div col-75-->
+            </div><!--div row-->
+            <div class="row-sub">
+                <button  id="btn-sub">
+                    <i class="far fa-plus-square">Salveaza</i>
+                </button><!--btn-sub-->
+            </div>
         </fieldset>
-        <p><a th:href="@{/manager-operation}">Back</a></p>
     </form>
+    <div class="btn">
+
+        <div class="btn-row">
+            <button  id="btn-home">
+                <a th:href="@{/displayAdminHome}">
+                    <i class="fas fa-home">Home</i>
+                </a>
+            </button><!--btn-home-->
+        </div>
+
+        <div class="btn-row">
+            <button id="btn-back">
+                <a th:href="@{/manager-operation}">
+                    <i class="fas fa-arrow-left">Inapoi</i>
+                </a>
+            </button><!--btn-back-->
+        </div>
+        <div class="btn-row">
+            <input type="hidden" th:field="*{restaurant.idRestaurant}" />
+            <button  id="btn-list">
+                <a th:href="@{/products-restaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                <i class="fas fa-list-ul">Produse</i>
+                </a>
+            </button><!--btn-list-->
+
+        </div>
+    </div> <!--div btn-->
 
 </div>
-
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 </body>
 </html>

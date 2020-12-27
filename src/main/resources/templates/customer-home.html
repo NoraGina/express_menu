@@ -5,46 +5,134 @@
     <title>Customer home page</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-* {
-    box-sizing: border-box;
+            @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-    margin: 0;
-    padding: 0;
-}
+     body{
+       /*color:#d62057;*/
+        background-color: #d4c7cb;
+        font-family:Arimo;
+    }
 
-p{
-font-family:Arimo;
+    p{
+        font-size:17px;
+    }
+
+    a{
     font-size:18px;
-}
-body{
-    background-color: #d4c7cb;
-}
-h1{
-padding-top:10px;
-font-family:Arimo;
-    font-size:24px;
-    font-style:italic;
-text-align:center;
-}
-a{
+    text-decoration:none;
+    }
+
+   h1{
+        padding-top:10px;
+        font-family:Arimo;
+        font-size:24px;
+        font-style:italic;
+        text-align:center;
+    }
+    h2{
+        text-align: center;
+        text-transform: uppercase;
+        font-style: italic;
+    }
+    h3{
+        color:#d62057;
+        font-family:Arimo;
+        font-style:italic;
+    }
+
+    input{
+        font-size: 16px;
+        width: 65%;
+    }
+
+    input:focus{
+        outline-color: lightslategray;
+        outline-style: outset;
+    }
+
+    button{
+        border:none;
+    }
+
+
+    .tab{
+        font-family: Arimo;
+         margin-top: 10px;
+         padding: 10px;
+    }
+    .column{
+        background-color: #4e5961;
+        border-radius: 5px;
+        color:#d0d7db;
+        float: left;
+        font-size: 20px;
+        line-height: 25px;
+        padding: 5px;
+        text-align: center;
+    }
+
+
+    .big{
+        width: 40%;
+    }
+    .small{
+        width:20%;
+    }
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+    .link{
     color:#d0d7db;
-}
-.main-container{
+    }
 
-    padding: 0px 70px;
-}
-img{
-    height: 250px;
-    width: 300px;
-}
+    .link:hover{
+        color: rgb(80, 28, 28);
+    }
 
+    .btn-search{
+        background-color:  #5c7a8f;
+        border-radius: 3px;
+        color:#d0d7db;
+        font-size: 16px;
+        padding: 2px 3px;
+    }
 
-.col{
-    float: left;
-    width: 33%;
-    padding: 30px;
-}
+    .btn-search:hover{
+        background-color: lightblue;
+        color: midnightblue;
+    }
+
+    .main-container{
+
+        padding: 0px 70px;
+    }
+    img{
+        height: 250px;
+        width: 300px;
+    }
+
+    .schedule-value{
+        font-size:17px
+    }
+
+    .order-btn{
+        background-color:inherit;
+        font-size:18px;
+    }
+
+    .col{
+        float: left;
+        width: 33%;
+        padding: 30px;
+    }
     </style>
 </head>
 
@@ -53,22 +141,95 @@ img{
     <h1>Customer home page</h1>
 </div>
 
+<div class="tab">
+
+    <div class="column small">
+        <a class="link" th:href="@{/displayLogInCustomer}">LogIn</a>
+    </div>
+    <div class="column small">
+        <a class="link" th:href="@{/displaySignUpCustomer}">SignUp</a>
+    </div>
+    <div class="column big">
+        <form class="update-form" method="get" th:action="@{/update-customer}" th:object="${customer}">
+            <input th:name="email" class="form-input" type="text" placeholder="@userName"
+                   onfocus="this.placeholder=''" onblur="this.placeholder='@userName'" required>
+            <button  class="btn-search"type="submit">Update/Forgot</button>
+        </form>
+    </div>
+    <div class="column small">
+        <a class="link" th:href="@{customer/logout}">LogOut</a>
+    </div>
+
+</div><!-- End tab-->
+
 <div class="main-container">
+<h3 th:text="${message}"></h3>
+
     <div class="col" th:each="restaurant:${restaurants}">
+         <h2 th:text="${restaurant.restaurantName}"></h2>
             <p><a th:href="@{/displayRestaurants/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}" target="_blank">
                 <img th:src="*{'data:image/jpg;base64,'+ restaurant.imageAsString}" height="70px" width="90px" alt="Image">
             </a>
-            </p>
-            <p th:text="${restaurant.restaurantName}"></p>
             <p th:name="idRestaurant"></p>
-            <p th:text="${restaurant.description}"></p>
-        <!--<p th:text="${schedule?.openTime}"></p>-->
-        <span  th:text="${restaurant.schedule.dayValue}" ></span>
-        <label>Open:</label><span th:text="${restaurant.schedule.openTime}"></span>
-        <label>Close:</label><span th:text="${restaurant.schedule.closeTime}"></span>
+            <p>Specific:
+                <b><span th:text="${restaurant.description}"></span></b>
+            </p>
+            <p>Adresa:
+                <b><span th:text="${restaurant.restaurantAddress}"></span></b>
+            </p>
+            <p>Telefon:
+                <b><span th:text="${restaurant.restaurantPhone}"></span></b>
+            </p>
+            <p>Email:
+                <b><span th:text="${restaurant.restaurantEmail}"></span></b>
+            </p>
+
+        <div class="schedule-value" th:if="${restaurant.schedule == null}">
+            <span>Program: </span>
+            <b><span th:text="${restaurant.scheduleNext.dayValue}"></span></b>&nbsp;
+            <b><em><span th:text="${restaurant.scheduleNext.openTime}"></span></em></b>
+            <b><em><span th:text="${restaurant.scheduleNext.closeTime}"></span></em></b>
+        </div>
+
+        <div class="schedule-value" th:unless="${restaurant.schedule == null}">
+            <span>Program: </span>
+            <b><span  th:text="${restaurant.schedule.dayValue}"></span></b>&nbsp;
+            <b><em><span th:text="${restaurant.schedule.openTime}"></span></em>&nbsp;</b>
+            <b><em><span th:text="${restaurant.schedule.closeTime}"></span></em></b>
+        </div>
+        <p>
+            <a th:href="@{/displayRestaurants/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}" >
+                View products
+            </a>
+        </p>
+        <p th:if="${customer != null}">
+            <button class="order-btn"  >
+                <a th:href="@{/productsRestaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                    <i class="fas fa-shopping-cart">Place order</i>
+                </a>
+            </button>
+        </p>
+        <p th:if="${customer == null}" onclick="myFunction()" >
+            <button class="order-btn"  >
+                <a th:href="@{/displayLogInCustomer}">
+                    <i class="fas fa-shopping-cart">Place order</i>
+                </a>
+            </button>
+        </p>
+        <!--<p>
+            <button class="order-btn"  >
+                <a th:href="@{/productsRestaurant/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}">
+                    <i class="fas fa-shopping-cart">Place order</i>
+                </a>
+            </button>
+        </p>-->
 
     </div>
-
 </div>
+<script>
+     function myFunction() {
+  alert("Trebuie sa aveti un cont pentru a face comanda");
+}
+</script>
 </body>
 </html>

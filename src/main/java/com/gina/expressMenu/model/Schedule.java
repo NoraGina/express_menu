@@ -45,9 +45,9 @@ public class Schedule {
         this.closeTime = closeTime;
     }
 
-    public Schedule(Restaurant restaurant, int day) {
+    public Schedule(Restaurant restaurant) {
         this.restaurant = restaurant;
-        this.day = day;
+
     }
 
     public Long getIdSchedule() {
@@ -92,37 +92,34 @@ public class Schedule {
     }
 
     public String getDayValue(){
-        String dayValue = "";
+        String dayName = "";
         switch (day){
             case 1:
-                dayValue="Luni";
+                dayName = "Luni";
                 break;
             case 2:
-                dayValue="Marti";
+                dayName = "Marti";
                 break;
             case 3:
-                dayValue = "Miercuri";
+                dayName = "Miercuri";
                 break;
             case 4:
-                dayValue = "Joi";
-                break;
+                dayName = "Joi";
+               break;
             case 5:
-                dayValue = "Vineri";
+                dayName = "Vineri";
                 break;
             case 6:
-                dayValue = "Sambata";
+                dayName = "Sambata";
                 break;
             case 7:
-                dayValue= "Duminica";
+                dayName = "Duminica";
                 break;
-
             default:
-                dayValue = "Invalid day";
+                dayName="Inchis";
         }
-        return dayValue;
-
+        return dayName;
     }
-
 
     @Override
     public boolean equals(Object o) {

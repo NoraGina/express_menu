@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Update order</title>
     <style>
    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
 *{
@@ -11,7 +11,10 @@
 }
 
 body{
-    background-color: #e8faf3;
+    background: #56ab2f;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #a8e063, #56ab2f);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #a8e063, #56ab2f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     font-family: Oswald;
 }
 fieldset{
@@ -76,10 +79,14 @@ outline: none;
     color: lightgray;
     background-color: #18448c;
 }
+.btn-del{
+    background-color:#ff4d4d;
+    color: #cc0000;
+}
 
 </style>
 </head>
-<body><!--th:action="'/restaurants/update/' + ${restaurant.idRestaurant}"-->
+<body>
 <div class="container">
 <form method="post"  th:action="'/orderCustomer/update/' + ${orderCustomer.idOrderCustomer}"  th:object="${orderCustomer}">
     <fieldset>
@@ -94,6 +101,7 @@ outline: none;
         <table>
             <thead>
             <tr>
+
                 <th>Product name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -103,6 +111,7 @@ outline: none;
             </thead>
             <tbody>
             <tr th:each="row : ${orderCustomer.orderItemList} ">
+
                 <td><input th:field="*{orderItemList[__${rowStat.index}__].product.productName}" class="inputs" /></td>
                 <td><input th:field="*{orderItemList[__${rowStat.index}__].product.idProduct}" type="hidden"/>
 
@@ -113,12 +122,16 @@ outline: none;
                     <input type="number"
                            th:field="*{orderItemList[__${rowStat.index}__].quantity}"
                            th:value="orderItem.quantity" class="quantity-input"></td>
+
+
             </tr>
             </tbody>
         </table>
     <div class="btn-container">
         <button type="submit" class="btn-save"> <i class="fas fa-cart-plus">Salveaza</i></button>
     </div>
+        <div class="alert alert-primary" role="alertdialog" th:text="${success}" th:if="${success}"></div>
+        <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
     </fieldset>
 </form>
 

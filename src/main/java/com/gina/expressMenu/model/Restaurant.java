@@ -1,5 +1,6 @@
 package com.gina.expressMenu.model;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -25,8 +26,9 @@ public class Restaurant {
     @Column(name = "restaurant_address")
     private String restaurantAddress;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private Set<Product> productSet;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_manager")
     @NotFound(action = NotFoundAction.IGNORE)
@@ -36,8 +38,10 @@ public class Restaurant {
     private byte[] image;
     @Column(name = "description")
     private String description;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Schedule> scheduleSet;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<OrderCustomer> orderCustomerSet;
 
@@ -139,28 +143,70 @@ public class Restaurant {
         this.scheduleSet = scheduleSet;
     }
 
-    public void setSchedule(Long idRestaurant, int day){
-        for(Schedule schedule:this.scheduleSet){
-            Restaurant restaurant = schedule.getRestaurant();
-        }
-    }
 
     @Transient
     public Schedule getSchedule( ){
 
-        for(Schedule schedule:scheduleSet) {
-           if(schedule.getDay() == getDayOfWeek(LocalDate.now())){
-               LocalTime openTime = schedule.getOpenTime();
-               LocalTime closeTime = schedule.getCloseTime();
-               schedule.getDayValue();
-               return schedule;
-           }
+        for(Schedule schedule:this.scheduleSet) {
+            if(schedule.getDay() == getDayOfWeek(LocalDate.now())) {
+                LocalTime openTime = schedule.getOpenTime();
+                LocalTime closeTime = schedule.getCloseTime();
 
+                return schedule;
+            }
 
         }
-
         return null;
     }
+
+    @Transient
+    public Schedule getScheduleNext( ){
+
+        for(Schedule schedule:this.scheduleSet) {
+            if(schedule.getDay() == getNextDay(LocalDate.now())) {
+                LocalTime openTime = schedule.getOpenTime();
+                LocalTime closeTime = schedule.getCloseTime();
+
+                return schedule;
+            }
+        }
+        return null;
+    }
+
+    public String getDayValue(){
+        Schedule schedule  = getSchedule();
+        int day = schedule.getDay();
+        String dayValue = "";
+        switch (day){
+            case 1:
+                dayValue="Luni";
+                break;
+            case 2:
+                dayValue="Marti";
+                break;
+            case 3:
+                dayValue = "Miercuri";
+                break;
+            case 4:
+                dayValue = "Joi";
+                break;
+            case 5:
+                dayValue = "Vineri";
+                break;
+            case 6:
+                dayValue = "Sambata";
+                break;
+            case 7:
+                dayValue= "Duminica";
+                break;
+
+            default:
+                dayValue = "Invalid day";
+        }
+        return dayValue;
+
+    }
+
 
 
     public  int getDayOfWeek(LocalDate date) {
@@ -177,77 +223,14 @@ public class Restaurant {
     }
 
 
+    public  int getNextTwoDay(LocalDate date){
 
-
-    public String getDayName1() {
-        int days = getDayOfWeek(LocalDate.now());
-        String dayName = "";
-        switch (days) {
-            case 1:
-                dayName = "Luni";
-                break;
-            case 2:
-                dayName ="Marti";
-                break;
-            case 3:
-                dayName= "Miercuri";
-                break;
-            case 4:
-                dayName= "Joi";
-                break;
-            case 5:
-                dayName= "Vineri";
-                break;
-            case 6:
-                dayName= "Sambata";
-                break;
-            case 7:
-                dayName= "Duminica";
-                break;
-            default:
-                throw new IllegalArgumentException("The dayOfWeek (" + days + ") is not valid.");
-        }
-        return dayName;
-    }
-
-    public String getDayName2() {
-        int days = getNextDay(LocalDate.now());
-        String dayName = "";
-        switch (days) {
-            case 1:
-                dayName = "Luni";
-                break;
-            case 2:
-                dayName ="Marti";
-                break;
-            case 3:
-                dayName= "Miercuri";
-                break;
-            case 4:
-                dayName= "Joi";
-                break;
-            case 5:
-                dayName= "Vineri";
-                break;
-            case 6:
-                dayName= "Sambata";
-                break;
-            case 7:
-                dayName= "Duminica";
-                break;
-            default:
-                throw new IllegalArgumentException("The dayOfWeek (" + days + ") is not valid.");
-        }
-        return dayName;
-    }
-
-
-    public static  String getNextDayName(LocalDate date){
-
-        LocalDate nextDay = date.plusDays(1l);
+        LocalDate nextDay = date.plusDays(2l);
         DayOfWeek day = nextDay.getDayOfWeek();
-        return day.name();
+        return day.getValue();
     }
+
+
 
     public Set<OrderCustomer> getOrderCustomerSet() {
         return orderCustomerSet;

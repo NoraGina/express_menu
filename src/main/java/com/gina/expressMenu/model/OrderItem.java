@@ -2,6 +2,8 @@ package com.gina.expressMenu.model;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,14 +17,14 @@ public class OrderItem {
     private Long idOrderItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product_id")
+    @JoinColumn(name="product_id" )
     @NotFound(action = NotFoundAction.IGNORE)
     private Product product;
 
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_order_customer")
     @NotFound(action = NotFoundAction.IGNORE)
     private OrderCustomer orderCustomer;
@@ -99,5 +101,13 @@ public class OrderItem {
                 ", quantity=" + quantity +
                 ", orderCustomer=" + orderCustomer +
                 '}';
+    }
+
+    public void displayOrderItems(){
+        System.out.println("Order item id: "+ idOrderItem);
+        System.out.println("Product: "+ product.getProductName());
+        System.out.println("Price: "+ product.getPrice());
+        System.out.println("Quantity: "+ quantity);
+        System.out.println("Order id: "+ orderCustomer.getIdOrderCustomer());
     }
 }

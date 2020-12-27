@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SignUp manager</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--<link rel ="stylesheet" href="/add-admin.css">-->
@@ -11,8 +12,9 @@
 
     * {box-sizing: border-box;}
 
-h1.{
-text-align: center}
+h1{
+    text-align: center
+    }
 .input-container {
   display: -ms-flexbox; /* IE10 */
   display: flex;
@@ -52,6 +54,22 @@ text-align: center}
 .btn:hover {
   opacity: 1;
 }
+
+ #eye{
+      background-color:white;
+      border:1px solid rgba(24, 24, 24, 0.719);
+      color: dodgerblue;
+      height: 100%;
+  }
+
+  #eye:hover{
+    background-color:dodgerblue;
+    border:1px solid rgba(24, 24, 24, 0.719);
+    color: white;
+    transform: translatey(2px);
+    /*transform:matrix(0.866,0.5,-0.1,0.866,0,0);*/
+  }
+
         form{
         max-width:500px;
         margin:auto;
@@ -65,26 +83,57 @@ text-align: center}
     <h2>Register Form</h2>
     <div class="input-container">
         <i class="fa fa-user icon"></i>
-        <input class="input-field" type="text" th:field = "*{userName}" placeholder="Username" name="usrnm">
+        <input class="input-field" type="text" th:field = "*{userName}" placeholder="Username" required/>
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="text-danger"></span>
     </div>
 
     <div class="input-container">
         <i class="fa fa-envelope icon"></i>
-        <input class="input-field" type="text" th:field = "*{email}" placeholder="Email" name="email">
+        <input class="input-field" type="text" th:field = "*{email}" placeholder="Email" required/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
     </div>
 
     <div class="input-container">
         <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" th:field = "*{password}" placeholder="Password" name="psw">
+        <input class="input-field" type="password" th:field = "*{password}" id="pwd" placeholder="Password" required/>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+        <span>
+            <i class="fa fa-eye icon"  type="button" id="eye"></i>
+         </span>
     </div>
 
     <div class="input-container">
         <i class="fa fa-phone-square icon"></i>
-        <input class="input-field" type="text" th:field = "*{phone}" placeholder="Phone" name="usrnm">
+        <input class="input-field" type="text" th:field = "*{phone}" placeholder="Phone" required/>
+        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn">Register</button>
 </form>
+
+<script>
+    function show() {
+    var p = document.getElementById('pwd');
+    p.setAttribute('type', 'text');
+}
+
+function hide() {
+    var p = document.getElementById('pwd');
+    p.setAttribute('type', 'password');
+}
+
+var pwShown = 0;
+
+document.getElementById("eye").addEventListener("click", function () {
+    if (pwShown == 0) {
+        pwShown = 1;
+        show();
+    } else {
+        pwShown = 0;
+        hide();
+    }
+}, false);
+</script>
 
 </body>
 </html>

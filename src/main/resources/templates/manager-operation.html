@@ -14,20 +14,51 @@ body{
     background: #73C8A9;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #373B44, #73C8A9);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #373B44, #73C8A9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     font-family: Roboto;
 
 }
-button, a{
-    background-color: #345e4e;
+button{
     border:none;
     border-radius: 5px;
-    color: #f5faf8;
-    font-family: Roboto;
     font-size: 18px;
     padding: 3px;
 }
+span{
+font-size:18px;
+color:#e4eff5;
+}
+ #btn-list{
+      background-color: #6a83f3;
+      color: #0a0955;
+    }
+
+    #btn-edit{
+      background-color: #048c28;
+      color:#69f58e;
+    }
+
+    #btn-add{
+        background-color: #025378;
+        color:#e4eff5;
+      }
+
+      #btn-del{
+      background-color: #b81a1f;
+      color: #d1bcbd;
+    }
+
+    #btn-log{
+     background-color: #4f111d;
+      color: #c7bdbf;
+
+    }
+
+      #btn-add:hover,  #btn-edit:hover, #btn-list:hover, #btn-del:hover,  #btn-log{
+        background-color: #08b124;
+        color: #d6d7ec;
+    }
 h1{
     color:#f5faf8;
-    font-family: Roboto;
     font-style: italic;
     padding-top:20px;
     padding-bottom: 10px;
@@ -35,15 +66,14 @@ h1{
 }
 
 .container{
-    color: #f5faf8;
     font-family: Roboto;
     font-size:18px;
-    padding:20px 280px;
-    width: 65%;
+    padding:20px 100px;
+    width: 80%;
 }
 
 table{
-    border-spacing: 20px 0;
+    border-spacing: 10px 0;
     width: 100%;
 }
 td{
@@ -66,9 +96,41 @@ td{
         <tr>
             <!--<td><input type="hidden" th:text="${manager.idManager}"></td>-->
             <td><span>Welcome &nbsp;</span><span th:text="${manager.userName}"></span></td>
-            <td><a th:href="@{/displayAddFormRestaurant}"><i class="fas fa-plus"><button>Add restaurant</button></i></a></td>
-            <td><a th:href="@{/manager-restaurants/{idManager}(idManager=${manager.idManager})}"><i class="fas fa-binoculars"><button>View restaurants</button></i></a></td>
-            <td><a th:href="@{/displayEditManager/{idManager}(idManager=${manager.idManager})}"><i class="fas fa-user-edit"><button>Edit manager</button></i></a></td>
+            <td>
+                <button id="btn-add">
+                    <a th:href="@{/displayAddFormRestaurant}">
+                        <i class="fas fa-plus">Add restaurant</i>
+                    </a>
+                </button>
+            </td>
+            <td>
+                <button id="btn-list">
+                    <a th:href="@{/manager-restaurants/{idManager}(idManager=${manager.idManager})}">
+                        <i class="fas fa-binoculars">View restaurants</i>
+                    </a>
+                </button>
+            </td>
+            <td><button id="btn-edit">
+                <a th:href="@{/displayEditManager/{idManager}(idManager=${manager.idManager})}">
+                    <i class="fas fa-user-edit">Edit manager</i>
+                </a>
+            </button>
+            </td>
+            <td>
+                <button  id="btn-log">
+                    <a th:href="@{manager/logout}">
+                        <i class="fas fa-sign-out-alt">LogOut</i>
+                    </a>
+                </button><!--btn log-->
+            </td>
+            <td>
+                <button  id="btn-del">
+                    <a th:href="@{/managers/delete/{idManager}(idManager=${manager.idManager})}"
+                       onclick="return confirm('Are you sure you want to delete this manager?');">
+                        <i class="fas fa-user-minus">Delete manager</i>
+                    </a>
+                </button><!--btn del-->
+            </td>
         </tr>
         </tbody>
     </table>

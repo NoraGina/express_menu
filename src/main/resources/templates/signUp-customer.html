@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SignUp Customer</title>
+    <link rel="stylesheet" href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css>
     <style>
  @import url('https://fonts.googleapis.com/css?family=Abel|Abril+Fatface|Alegreya|Arima+Madurai|Dancing+Script|Dosis|Merriweather|Oleo+Script|Overlock|PT+Serif|Pacifico|Playball|Playfair+Display|Share|Unica+One|Vibur');
 /* End Fonts */
@@ -17,37 +18,48 @@
 /* Start body rules */
 body {
     background-image: linear-gradient(-225deg, #39548a 0%, #7bbce2 100%);
-background-image: linear-gradient(to top, #226461 0%, #f5eff1 100%);
-background-attachment: fixed;
-  background-repeat: no-repeat;
+    background-image: linear-gradient(to top, #226461 0%, #f5eff1 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 
     font-family: 'Vibur', cursive;
 /*   the main font */
     font-family: 'Abel', sans-serif;
-opacity: .95;
-/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+    opacity: .95;
+
 }
-
-
-
-/* |||||||||||||||||||||||||||||||||||||||||||||*/
-/* //////////////////////////////////////////// */
-
-
-
 
 /* End body rules */
 
 /* Start form  attributes */
 form {
-    width: 450px;
-    min-height: 500px;
-    height: auto;
-    border-radius: 5px;
-    margin: 2% auto;
+    background-image: linear-gradient(-220deg, #E3FDF5 50%, #7792b1 50%);
     box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
-    padding: 2%;
-    background-image: linear-gradient(-225deg, #E3FDF5 50%, #7792b1 50%);
+    border-radius: 5px;
+    height: auto;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:1%;
+    padding: 0.5%;
+    width: 450px;
+}
+
+h3{
+    color: #fc0324;
+    font-family: 'Abel';
+    font-style:italic;
+    text-align: center;
+}
+
+.update-form {
+    background-image: linear-gradient(-333deg, #E3FDF5 50%, #7792b1 50%);
+    border-radius: 5px;
+    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+    height: auto;
+    margin-top: 0;
+    margin-bottom: 1%;
+    padding: 0.5% 2% 0 2%;
+    width: 450px;
 }
 /* form Container */
 form .con {
@@ -59,8 +71,17 @@ form .con {
 
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
+    margin: 0 auto;
+}
+.update-form .update-container{
+    display: -webkit-flex;
+    display: flex;
+    margin: 0 auto;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
 
-      margin: 0 auto;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 /* the header form form */
@@ -74,15 +95,12 @@ header h2 {
     font-family: 'Playfair Display', serif;
     color: #3e403f;
 }
-/*  A welcome message or an explanation of the login form */
-header p {letter-spacing: 0.05em;}
-
 
 .input-item {
     background: #fff;
+    border-radius: 5px 0px 0px 5px;
     color: #333;
     padding: 14.5px 0px 15px 9px;
-    border-radius: 5px 0px 0px 5px;
 }
 
 
@@ -90,96 +108,72 @@ header p {letter-spacing: 0.05em;}
 /* Show/hide password Font Icon */
 #eye {
     background: #fff;
-    color: #333;
-
-    margin: 5.9px 0 0 0;
-    margin-left: -20px;
-    padding: 15px 9px 19px 0px;
     border-radius: 0px 5px 5px 0px;
+    color: #333;
+    cursor: pointer;
+    margin: 8px 50px 0 0;
+    padding: 12px 9px 12px 0px;
 
     float: right;
     position: relative;
     right: 1%;
     top: -.2%;
     z-index: 5;
+}
 
-    cursor: pointer;
+#update-para{
+    color:#3f0513;
+    font-family: 'Abel';
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: 0.05em;
 }
 /* inputs form  */
 input[class="form-input"]{
-    width: 240px;
-    height: 50px;
-
-    margin-top: 2%;
-    padding: 15px;
-
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    color: #5E6472;
     font-size: 16px;
     font-family: 'Abel', sans-serif;
-    color: #5E6472;
-
+    height: 40px;
+    width: 270px;
+    margin-top: 2%;
+    padding: 15px;
     outline: none;
-    border: none;
-
-    border-radius: 0px 5px 5px 0px;
     transition: 0.2s linear;
 
 }
-#txt-input{
-    width: 275px;
+
+#pwd{
+    width: 240px;
 }
 
-#email-input{
-    width: 245px;
-}
-
-#phone-input{
-    width: 275px;
-}
-#address-input{
-    width: 275px;
-}
-/* focus  */
 input:focus {
     transform: translateX(-2px);
     border-radius: 5px;
 }
 
-/* //////////////////////////////////////////// */
-/* //////////////////////////////////////////// */
-
-/* input[type="text"] {min-width: 250px;} */
 /* buttons  */
 button {
-    display: inline-block;
-    color: #252537;
-
-    width: 280px;
-    height: 50px;
-
-    padding: 0 20px;
     background: #fff;
-    border-radius: 5px;
-
-    outline: none;
     border: none;
-
+    border-radius: 5px;
+    color: #252537;
     cursor: pointer;
+    display: inline-block;
+    letter-spacing: 0.05em;
+    margin: 7% auto;
+    padding: 0 20px;
+    outline: none;
+    height: 40px;
+    width: 280px;
     text-align: center;
     transition: all 0.2s linear;
-
-    margin: 7% auto;
-    letter-spacing: 0.05em;
 }
-/* Submits */
-.submits {
-    width: 48%;
 
-    float: left;
-    margin-left: 2%;
-}
 
 /*       Forgot Password button FAF3DD  */
-.frgt-pass {background: transparent;}
+.frgt-pass {background: #e2bebe;}
 
 /*     Sign Up button  */
 .sign-up {background: #B8F2E6;}
@@ -187,8 +181,10 @@ button {
 
 /* buttons hover */
 button:hover {
-    transform: translatey(3px);
+    background-color: #7bbce2;
     box-shadow: none;
+    transform: translatey(3px);
+
 }
 
 /* buttons hover Animation */
@@ -208,65 +204,92 @@ button:hover {
 <body>
 
 <div class="overlay">
-    <!-- LOGN IN FORM  -->
+    <!-- SignUp FORM  -->
+    <h3 th:text="${message}"></h3>
     <form method="post" th:action="@{/customer/add}" th:object="${customer}">
         <!--   con = Container  for items in the form-->
         <div class="con">
             <!--     Start  header Content  -->
             <header class="head-form">
                 <h2>Sign Up</h2>
-                <!--     A welcome message or an explanation of the login form -->
-
             </header>
             <!--     End  header Content  -->
             <br>
             <div class="field-set">
-
                 <!--   user name -->
-                <input class="form-input"  th:field = "*{customerName}" id="txt-input" type="text" placeholder="Enter name" required>
+                <span class="input-item">
+            <i class="fa fa-user-circle"></i>
+          </span>
+                <input class="form-input" th:field="*{customerName}" id="txt-input" type="text" placeholder="Enter name"
+                       required>
                 <span th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}" class="text-danger"></span>
                 <br>
+                <!--   user name email-->
                 <span class="input-item">
-                   <i class="fa fa-user-circle"></i>
+                   <i class="fa fa-at"></i>
                  </span>
-                <!--   user name Input-->
                 <input class="form-input" th:field = "*{email}" id="email-input" type="text" placeholder="@UserName" required>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
                 <br>
+                <!--   Phone -->
+                <span class="input-item">
+                  <i class="fa fa-phone-square"></i>
+                 </span>
                 <input class="form-input" th:field="*{phone}" id="phone-input" type="text" placeholder="Enter phone number" required>
                 <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></span>
-
                 <br>
-                <input class="form-input" th:field="*{address}" id="address-input" type="text" placeholder="Enter address" required>
+                <!--   Address -->
+                <span class="input-item">
+                    <i class="fa fa-map-marker"></i>
+                </span>
+                <input class="form-input" th:field="*{address}" id="address-input" type="text" placeholder="Localitate, Strada, Nr, Ap" required>
                 <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger"></span>
-
                 <br>
                 <!--   Password -->
                 <span class="input-item">
                 <i class="fa fa-key"></i>
                </span>
-                <!--   Password Input-->
                 <input class="form-input" th:field="*{password}" type="password" placeholder="Password" id="pwd"  name="password" required>
-
-
                 <!--      Show/hide password  -->
                 <span>
                 <i class="fa fa-eye" aria-hidden="true"  type="button" id="eye"></i>
              </span>
                 <br>
-                <!--      button LogIn -->
+                <!--      button SignUp -->
+                <!--<button class="log-in" onclick="return prompt('You have successfully sign up!');">-->
                 <button class="log-in"> Sign up
                     <!--         Sign Up font icon -->
                     <i class="fa fa-user-plus" aria-hidden="true"></i>
                 </button>
             </div><!-- field set-->
-
         </div> <!--   End Container  -->
 
     </form><!-- End Form -->
-</div><!-- class overlay-->
-<link rel="stylesheet" href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css>
+    <!-- Form update-->
+    <form class="update-form" method="get" th:action="@{/update-customer}" th:object="${customer}">
+        <div class="update-container">
+            <!--   other buttons -->
+            <p id="update-para">Ai uitat parola?
+                Foloseste adresa de email!
+            </p><br>
+            <div class="field-set">
+                  <span class="input-item">
+                      <i class="fa fa-user-circle"></i>
+                  </span>
+                <input th:name="email" class="form-input" id="txtEmail-input" type="text" placeholder="@UserName"
+                       required>
+            </div><!-- End field-set-->
+            <!--      Forgot Password button-->
+            <button class="frgt-pass " type="submit">
+                Forgot Password
+                <i class="fas fa-search"></i>
+            </button>
+        </div><!-- End update-container -->
+    </form>
 
+</div><!-- class overlay-->
+
+<script src="https://kit.fontawesome.com/7f4724c75b.js" crossorigin="anonymous"></script>
 <script>
     function show() {
     var p = document.getElementById('pwd');

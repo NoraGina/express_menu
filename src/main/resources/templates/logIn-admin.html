@@ -63,26 +63,20 @@ text-align: center}
 <h1> LogIn manager</h1>
 <form method="get" th:action="@{/authorization}" th:object="${manager}" >
     <h2>Register Form</h2>
-    <div th:if="${param.error}">
-        <div class="alert alert-danger">
-            Invalid username or password.
-        </div>
-    </div>
-    <div th:if="${param.logout}">
-        <div class="alert alert-info">
-            You have been logged out.
-        </div>
-    </div>
+    <!--<ul th:if="${#fields.hasErrors('global')}">
+    <li th:each="error : ${#fields.errors('global')}" th:text="${error}">error</li>
+</ul>-->
 
 
     <div class="input-container">
         <i class="fa fa-envelope icon"></i>
-        <input class="input-field" type="text" th:name = "email" placeholder="Email" name="email">
+        <input class="input-field" type="text" th:name = "email" placeholder="Email" required/>
+
     </div>
 
     <div class="input-container">
         <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" th:name = "password" placeholder="Password" name="psw">
+        <input class="input-field" type="password" th:name = "password" placeholder="Password" required/>
     </div>
 
     <button type="submit" class="btn">LogIn</button>

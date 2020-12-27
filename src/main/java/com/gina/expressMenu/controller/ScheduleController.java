@@ -41,7 +41,6 @@ public class ScheduleController {
             schedule.setRestaurant(restaurant);
             model.addAttribute("schedule", schedule);
 
-
         } else {
             new IllegalArgumentException("Invalid restaurant Id" + idRestaurant);
         }
@@ -69,12 +68,13 @@ public class ScheduleController {
                 final Restaurant restaurant = optional.get();
 
                 newSchedule.setRestaurant(restaurant);
-                model.addAttribute("restaurant", restaurant);
                 model.addAttribute("schedule", newSchedule);
             }
         }
         Manager manager = (Manager) httpSession.getAttribute("manager");
         model.addAttribute("manager", manager);
+        model.addAttribute("restaurant",schedule.getRestaurant());
+        model.addAttribute("schedules", scheduleRepository.findAllByRestaurantId(schedule.getRestaurant().getIdRestaurant()));
         return "add-schedule";
     }
 
@@ -88,6 +88,8 @@ public class ScheduleController {
             model.addAttribute("schedule", schedule);
             Manager manager = (Manager) httpSession.getAttribute("manager");
             model.addAttribute("manager", manager);
+            model.addAttribute("restaurant", schedule.getRestaurant());
+
         } else {
             new IllegalArgumentException("Invalid schedule Id:" + idSchedule);
         }
@@ -110,26 +112,44 @@ public class ScheduleController {
         }catch(Exception e){
             e.printStackTrace();
         }
+        Restaurant restaurant = schedule.getRestaurant();
+        String idRestaurant = restaurant.getIdRestaurant().toString();
+        model.addAttribute("schedules", scheduleRepository.findAllByRestaurantId(restaurant.getIdRestaurant()));
 
-        return "manager-operation";
+        return "redirect:/schedules-restaurant/"+idRestaurant;
+
     }
 
 
 
     @GetMapping("/schedules/delete/{idSchedule}")
     public String deleteProduct(@PathVariable("idSchedule") Long idSchedule, Model model) {
+        Schedule schedule = scheduleRepository.findById(idSchedule).get();
+        Restaurant restaurant = schedule.getRestaurant();
+        String idRestaurant = restaurant.getIdRestaurant().toString();
+        model.addAttribute("schedules", scheduleRepository.findAllByRestaurantId(restaurant.getIdRestaurant()));
+
         scheduleRepository.deleteById(idSchedule);
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("manager", manager);
-        return "manager-operation";
+
+
+        return "redirect:/schedules-restaurant/"+idRestaurant;
     }
 
     @GetMapping("/schedules-restaurant/{idRestaurant}")
-    public String getProductsByRestaurant(
-            @PathVariable("idRestaurant") Long idRestaurant, Model model){
-        Manager manager = (Manager) httpSession.getAttribute("manager");
-        model.addAttribute("manager", manager);
+    public String getProductsByRestaurant(@PathVariable("idRestaurant") Long idRestaurant, Model model){
+
         model.addAttribute("schedules", scheduleRepository.findAllByRestaurantId(idRestaurant));
+        Schedule schedule = new Schedule();
+        final Optional<Restaurant> optional = restaurantRepository.findById(idRestaurant);
+        if (optional.isPresent()) {
+            final Restaurant restaurant = optional.get();
+            model.addAttribute("restaurant", restaurant);
+            schedule.setRestaurant(restaurant);
+            model.addAttribute("schedule", schedule);
+
+        } else {
+            new IllegalArgumentException("Invalid restaurant Id" + idRestaurant);
+        }
         return "schedules-restaurant";
     }
 

@@ -1,9 +1,6 @@
 package com.gina.expressMenu.controller;
 
-import com.gina.expressMenu.model.Customer;
-import com.gina.expressMenu.model.Restaurant;
-import com.gina.expressMenu.model.Schedule;
-import com.gina.expressMenu.model.Status;
+import com.gina.expressMenu.model.*;
 import com.gina.expressMenu.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,31 +32,19 @@ public class CustomerHomeController {
     private ScheduleRepository scheduleRepository;
 
     @GetMapping("/displayCustomerHome")
-    public String displayClientHome(Model model){
+    public String displayClientHome(Model model,
+                                    @ModelAttribute("message") String message,
+                                    @ModelAttribute("message1") String message1){
         List<Restaurant>restaurants = restaurantRepository.findAll();
+        Customer customer = (Customer) httpSession.getAttribute("customer");
         model.addAttribute("restaurants", restaurants);
-       for(Restaurant restaurant: restaurants){
-
-           Schedule schedule = restaurant.getSchedule();
-               try{
-                   if (schedule != null){
-                       model.addAttribute("schedule", schedule);
-                   }
-               }catch(Exception e){
-                   e.printStackTrace();
-               }
-           }
-
-
+        model.addAttribute("customer", customer);
+        model.addAttribute("message", message);
+        model.addAttribute("message1", message1);
         return "customer-home";
 
         }
 
-    @GetMapping("/displayCustomerOrder")
-    public String displayCustomerOrder(Model model){
-        model.addAttribute("restaurants", restaurantRepository.findAll());
-        return "customer-order";
-    }
     
   @GetMapping("displayRestaurants/{idRestaurant}")
     public String displayRestaurants(@PathVariable("idRestaurant") Long idRestaurant,
@@ -68,7 +53,6 @@ public class CustomerHomeController {
 
     return "view-products";
   }
-
 
 
     @GetMapping("/displaySignUpCustomer")
@@ -81,29 +65,34 @@ public class CustomerHomeController {
     @PostMapping("/customer/add")
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer,
                               BindingResult result,Model model,
-                              RedirectAttributes ra ) {
+                              RedirectAttributes attributes ) {
         if (result.hasErrors()) {
+
             return "signUp-customer";
         }
-        if(customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()) == 0l){
+        if(customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()) == 1l) {
+            attributes.addFlashAttribute("message", customer.getCustomerName() + " " + "Aveti deja cont");
+            System.out.println("Count by email and password"+customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()));
+            return "redirect:/displayLogInCustomer";
+        }else if(customerRepository.countByEmail(customer.getEmail()) == 1l){
+            attributes.addFlashAttribute("message1", "exista un cont deja la adresa:! "+customer.getEmail()+" "+" Ai uitat parola?");
+            System.out.println("Count by email"+customerRepository.countByEmail(customer.getEmail()));
+            return "redirect:/displayLogInCustomer";
+
+        }else if(customerRepository.countByEmail(customer.getEmail()) == 0l ||
+                customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()) == 0l){
             customerRepository.save(customer);
             httpSession.setAttribute("customer", customer);
             model.addAttribute("customer", customer);
             model.addAttribute("idCustomer", customer.getIdCustomer());
             model.addAttribute("userName", customer.getCustomerName());
             model.addAttribute("restaurants", restaurantRepository.findAll());
-            model.addAttribute("localDate", LocalDate.now());
-            model.addAttribute("timestamp", Instant.now());
-            model.addAttribute("status", Status.AFFECTED );
-            ra.addFlashAttribute("message", "The customer has been saved successfully.");
 
-            return "customer-order";
+            attributes.addFlashAttribute("message", customer.getCustomerName().toUpperCase()+" "+"Sunte-ti logat!");
 
+            return "redirect:/displayCustomerHome";
         }
-        else{
-            return "logIn-customer";
-        }
-
+        return "customer-home";
     }
 
     @GetMapping("/displayLogInCustomer")
@@ -113,15 +102,62 @@ public class CustomerHomeController {
     }
 
     @GetMapping("/authorizationCustomer")
-    public String authorization(@RequestParam(value="email",required=false) String email, @RequestParam(value = "password", required = false) String password,Model model){
+    public String authorization(@RequestParam(value="email",required=false) String email,
+                                @RequestParam(value = "password", required = false) String password,
+                                 Model model, RedirectAttributes attributes ){
         Customer customer = customerRepository.findByEmailAndPassword(email, password);
-        model.addAttribute("restaurants", restaurantRepository.findAll());
+
         if(customer != null){
-            httpSession.setAttribute("customer", customer);
-            model.addAttribute("customer", customer);
-            return "customer-order";
+                httpSession.setAttribute("customer", customer);
+                model.addAttribute("customer", customer);
+                model.addAttribute("restaurants", restaurantRepository.findAll());
+                attributes.addFlashAttribute("message", customer.getCustomerName().toUpperCase()+" "+"Sunte-ti logat!");
+
+                return "redirect:/displayCustomerHome";
+            }
+            attributes.addFlashAttribute("message", "Poate ai uitat parola sau nu ai cont?");
+            //model.addAttribute("customer", new Customer());
+            return "redirect:/displaySignUpCustomer";
+
+    }
+
+
+    @GetMapping("/update-customer")
+    public String displayCustomerUpdate(@RequestParam("email") String email,Model model){
+        Customer customer = customerRepository.findByEmail(email);
+        if(customer == null){
+            model.addAttribute("customer", new Customer());
+            return "/signUp-customer";
+
         }
-        model.addAttribute("customer", new Customer());
-        return "/signUp-customer";
+        model.addAttribute("customer", customer);
+
+        return "update-customer";
+    }
+
+    @PostMapping("customers/update/{idCustomer}")
+    public String updateCustomer(@PathVariable("idCustomer")Long idCustomer, Model model,
+                                 @Valid @ModelAttribute("customer") Customer customer, BindingResult result,
+                                 RedirectAttributes attributes){
+        if(result.hasErrors()){
+            return "update-customer";
+        }
+
+        customerRepository.save(customer);
+        model.addAttribute("customer", customer);
+        httpSession.setAttribute("customer", customer);
+        attributes.addFlashAttribute("message", customer.getCustomerName().toUpperCase()+" "+"Sunte-ti logat!");
+        model.addAttribute("restaurants", restaurantRepository.findAll());
+
+        return "redirect:/displayCustomerHome";
+    }
+
+    @GetMapping("customer/logout")
+    public String logOutCustomer(){
+        Customer customer = (Customer) httpSession.getAttribute("customer");
+        httpSession.removeAttribute("customer");
+        httpSession.invalidate();
+
+        return "redirect:/index";
     }
 }

@@ -110,7 +110,7 @@ button {
 <div class="container">
     <h2>All orders</h2>
     <div class = "form-search">
-        <form  th:action="@{/orders-date/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}" method="get">
+        <form  th:action="@{/orders-date/{idRestaurant}(idRestaurant=${restaurant.idRestaurant})}" method="get">
             <fieldset>
                 <legend>Filter by Date</legend>
             <input type="hidden" th:field="${orderCustomer.restaurant.idRestaurant}" th:name="idRestaurant"/>
@@ -136,7 +136,7 @@ button {
     </div>
     <br>
     <div class = "form-search">
-        <form th:action="@{/orders-date-status/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}">
+        <form th:action="@{/orders-date-status/{idRestaurant}(idRestaurant=${orderCustomer.restaurant.idRestaurant})}" method="get">
             <fieldset>
                 <legend>Filter by Date and Status</legend>
             <input type="hidden" th:field="${orderCustomer.restaurant.idRestaurant}" th:name="idRestaurant"/>

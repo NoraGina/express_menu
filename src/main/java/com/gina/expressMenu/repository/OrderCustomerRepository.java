@@ -1,9 +1,7 @@
 package com.gina.expressMenu.repository;
 
 import com.gina.expressMenu.model.OrderCustomer;
-import com.gina.expressMenu.model.OrderItem;
-
-
+import com.gina.expressMenu.model.Restaurant;
 import com.gina.expressMenu.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +25,12 @@ public interface OrderCustomerRepository extends JpaRepository<OrderCustomer, Lo
             "restaurant.idRestaurant=:idRestaurant and o.date=:date and o.status=:status")
     List<OrderCustomer>findAllByIdRestaurantDateAndStatus
             (@Param("idRestaurant") Long idRestaurant, @Param("date")LocalDate date, @Param("status")Status status);
+
+    @Query("Select o from OrderCustomer o where restaurant.idRestaurant IN (:idsRestaurant)")
+    List<OrderCustomer>findAllByRestaurantIds(@Param("idsRestaurant")List<Long>idsRestaurant);
+
+    @Query("Select restaurant from OrderCustomer o where o.idOrderCustomer=:idOrderCustomer")
+    Restaurant findRestaurantByIdOrderCustomer(@Param("idOrderCustomer")Long idOrderCustomer);
+
+
 }
