@@ -62,7 +62,6 @@ public class ProductController {
             product.setImage(byteObjects);
             productRepository.save(product);
 
-
         }catch(Exception e){
             e.printStackTrace();
         } finally {
@@ -70,9 +69,7 @@ public class ProductController {
             Product newProduct = new Product();
             if (optional.isPresent()){
                 final Restaurant restaurant = optional.get();
-
                 newProduct.setRestaurant(restaurant);
-
                 model.addAttribute("product", newProduct);
 
             }

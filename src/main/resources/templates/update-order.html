@@ -52,7 +52,7 @@ button{
 }
 .inputs{
     background-color: #e8faf3;
-    border-style: hidden;
+    outline: none;
     padding:5px ;
     font-size: 16px;
 }
@@ -94,6 +94,9 @@ outline: none;
          <input class="inputs" type="hidden" th:field="*{restaurant.idRestaurant}" />
         <input type="hidden" th:field="*{restaurant.restaurantName}" class="inputs"/>
         <input  type="hidden" th:field="*{customer.idCustomer}" class="inputs" />
+        <input th:field="*{customer.customerName}" class="inputs" id="txt-name" type="text"/><br>
+        <input th:field="*{customer.phone}" class="inputs" type="text"/><br>
+        <input th:field="*{customer.address}" class="inputs" type="text"/><br>
         <input  type="hidden" th:field = "*{date}"  th:text="${#temporals.formatISO(localDate)}" class="inputs"/>
         <input type="hidden" th:field = "*{time}" th:text="${#temporals.formatISO(timestamp)}" class="inputs"/>
         <input  type="hidden" th:field = "*{status}"  class="inputs" />
@@ -122,13 +125,11 @@ outline: none;
                     <input type="number"
                            th:field="*{orderItemList[__${rowStat.index}__].quantity}"
                            th:value="orderItem.quantity" class="quantity-input"></td>
-
-
             </tr>
             </tbody>
         </table>
     <div class="btn-container">
-        <button type="submit" class="btn-save"> <i class="fas fa-cart-plus">Salveaza</i></button>
+        <button type="submit" class="btn-save"> <i class="fas fa-cart-plus">Editeaza</i></button>
     </div>
         <div class="alert alert-primary" role="alertdialog" th:text="${success}" th:if="${success}"></div>
         <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>

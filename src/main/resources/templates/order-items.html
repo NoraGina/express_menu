@@ -124,7 +124,7 @@ outline: none;
             </tr>
             </thead>
             <tbody>
-            <tr th:each="row : ${orderCustomer.orderItemList} ">
+            <tr th:each="row : ${orderCustomer.orderItemList}">
 
                 <td><input th:field="*{orderItemList[__${rowStat.index}__].product.productName}" class="inputs" /></td>
                 <td><input th:field="*{orderItemList[__${rowStat.index}__].product.idProduct}" type="hidden"/>

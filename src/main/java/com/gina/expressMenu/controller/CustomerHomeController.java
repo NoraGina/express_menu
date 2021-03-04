@@ -72,11 +72,11 @@ public class CustomerHomeController {
         }
         if(customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()) == 1l) {
             attributes.addFlashAttribute("message", customer.getCustomerName() + " " + "Aveti deja cont");
-            System.out.println("Count by email and password"+customerRepository.countByEmailAndPassword(customer.getEmail(), customer.getPassword()));
+
             return "redirect:/displayLogInCustomer";
         }else if(customerRepository.countByEmail(customer.getEmail()) == 1l){
             attributes.addFlashAttribute("message1", "exista un cont deja la adresa:! "+customer.getEmail()+" "+" Ai uitat parola?");
-            System.out.println("Count by email"+customerRepository.countByEmail(customer.getEmail()));
+
             return "redirect:/displayLogInCustomer";
 
         }else if(customerRepository.countByEmail(customer.getEmail()) == 0l ||

@@ -44,7 +44,7 @@ public class CustomerOrderController {
 
     @GetMapping("/productsRestaurant/{idRestaurant}")
     public String getProductsByRestaurant(@PathVariable("idRestaurant") Long idRestaurant,
-                                          Model model, RedirectAttributes redirAttrs) {
+                                          Model model) {
         List<OrderItem> orderItemList = new ArrayList<>();
         OrderCustomer orderCustomer = new OrderCustomer();
         Customer customer = (Customer) httpSession.getAttribute("customer");
@@ -77,7 +77,7 @@ public class CustomerOrderController {
 
 
     @Transactional
-    @PostMapping("orders/add")
+    @PostMapping("/orders/add")
     public String saveOrder(@Valid @ModelAttribute("orderCustomer") OrderCustomer orderCustomer,
                             Model model, BindingResult result) {
 
@@ -98,7 +98,6 @@ public class CustomerOrderController {
         orderCustomerRepository.save(orderCustomer);
         model.addAttribute("orderCustomer", orderCustomer);
         orderCustomer.setStatus(Status.AFFECTED);
-
         Long id = orderCustomer.getCustomer().getIdCustomer();
         Customer customer = customerRepository.findById(id).get();
         Restaurant restaurant = restaurantRepository.findById(orderCustomer.getRestaurant().getIdRestaurant()).get();
